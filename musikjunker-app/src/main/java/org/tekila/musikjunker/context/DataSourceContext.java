@@ -14,7 +14,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.jndi.JndiObjectFactoryBean;
 
 /**
- * TODO: parameterize datasource from properties
  * @author lc
  *
  */

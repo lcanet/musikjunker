@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="lct">
+    <meta name="description" content="Musikjunker">
+    <link rel="shortcut icon" href="lib/workless/img/favicon.png">
+
+    <!-- Mobile Viewport -->
+    <meta name="viewport" content="width=device-width">
+
+    <title>Musikjunker</title>
+    <link rel="stylesheet" href="css/musikjunker.css"/>
+    <link rel="stylesheet" href="lib/workless/workless-global.css"/>
+</head>
+<body class="blueish" id="top" ng-app="musikjunker-admin" ng-controller="MainController">
+
+<section class="boxed">
+
+    <!-- main -->
+    <section id="main">
+
+        <!-- logo -->
+        <div id="logo">
+            <img src="lib/workless/img/logo.png" alt="Workless"/>
+            <small> musikjunker</small>
+        </div>
+        <!-- /logo -->
+			<h3>musikjunker. reindex admin</h3>
+
+        <!-- /nav -->
+        <hr/>
+
+        <header class="bg_shadow" style="height: 150px">
+			
+			<div class="one_third">
+				<h4>current state</h4>
+				<ul ng-show="currentState == null">
+					<li> no reindexation past or present. <a href="" ng-click="launch()">run it now</a>
+					</li>
+				</ul>
+				
+				<ul ng-show="currentState != null" ng-cloak>
+					<li>
+						Running: <b>{{currentState.running}}</b>
+					</li>
+					<li ng-show="!currentState.running">
+						Was ok: <b>{{currentState.ok}}</b>
+					</li>
+					<li ng-show="currentState.message">
+						Message: <b>{{currentState.message}}</b>
+					</li>
+					<li>
+						Started : <b>{{currentState.lastLaunch | date:'yyyy-MM-dd - HH:mm:ss'}} </b>
+					</li>
+					<li ng-show="!currentState.running">
+						Ended : <b>{{currentState.end | date:'yyyy-MM-dd - HH:mm:ss'}}</b>
+					</li>
+				</ul>
+			</div>
+			<div class="two_third">
+			<h4>operations</h4>
+			
+				<a href="" ng-click="launch()">run </a>
+				|
+				<a href="" ng-click="stop()">stop</a>
+				| 
+				<a href="" ng-click="getState()">refresh</a>
+				
+			
+			</div>
+			
+		</header>
+		
+		<footer class="one_full">
+            <p class="small muted">tekila.</p>
+        </footer>
+
+
+    </section>
+</section>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="lib/angular/angular.js"></script>
+
+<script src="js/admin-app.js"></script>
+</body>
+</html>

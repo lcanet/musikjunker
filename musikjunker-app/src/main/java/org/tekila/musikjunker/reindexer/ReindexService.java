@@ -19,23 +19,19 @@ import org.jaudiotagger.audio.AudioHeader;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.reference.GenreTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.tekila.musikjunker.domain.Resource;
 import org.tekila.musikjunker.domain.TypeResource;
+import org.tekila.musikjunker.exception.ReindexStateException;
 import org.tekila.musikjunker.repository.HibernateRepository;
 
 @Slf4j
 @Service
-@Scope(value=  ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ReindexService {
 
 	private static final Pattern NUMERIC_GENRE_PATTERN = Pattern.compile("^\\((\\d+)\\)");
@@ -46,17 +42,78 @@ public class ReindexService {
 	
 	@Autowired
 	private TransactionTemplate transactionTemplate;
-
-	private List<Object> currentList = new ArrayList<Object>();
 	
-	public void reindex(String baseDir) {
-		File dir = new File(baseDir);
-		reindex(null, dir);
-		flush();
+	@Autowired
+	private Environment environment;
 
+	
+	private ReindexState currentState;
+	private boolean interrupt;
+	
+	
+	/**
+	 * Get current state of reindexation
+	 * @return
+	 */
+	public synchronized ReindexState getCurrentState() {
+		return currentState;
+	}
+	
+	public synchronized void stopReindex() {
+		if (currentState == null || !currentState.isRunning()) {
+			throw new ReindexStateException("Not running");
+		}
+		interrupt = true;
+	}
+	
+
+	public synchronized ReindexState startReindex() {
+		if (currentState != null && currentState.isRunning()) {
+			throw new ReindexStateException("Already running");
+		}
+		
+		// build news state
+		currentState = new ReindexState();
+		currentState.setLastLaunch(new Date());
+		currentState.setRunning(true);
+		
+		// clear interrupt lock
+		interrupt = false;
+		
+		final File dir = new File(environment.getRequiredProperty("musikjunker.basedir"));
+		log.info("Running reindex on {}", dir.getAbsolutePath());
+		
+		Thread thr = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				try {
+					List<Resource> currentList = new ArrayList<Resource>();
+					reindex(currentList, null, dir);
+					flush(currentList);
+					
+					currentState.setOk(true);
+				} catch (Exception ex) {
+					log.error("Error while reindexing", ex);
+					currentState.setOk(false);
+					currentState.setMessage(ex.getMessage());
+					
+				} finally {
+					// mark end
+					currentState.setRunning(false);
+					currentState.setEnd(new Date());
+				}
+
+			}
+		});
+		thr.setName("Musikjunker-reindex");
+		thr.start();
+		
+		return currentState;
 	}
 
-	private void flush() {
+	private void flush(final List<Resource> currentList) {
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 			@Override
 			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
@@ -66,26 +123,37 @@ public class ReindexService {
 		currentList.clear();
 	}
 
-	private void reindex(String path, File dir) {
+	private void reindex(List<Resource> currentList, String path, File dir) throws InterruptedException {
 		log.info("Reindexing dir " + dir.getAbsolutePath());
-
+		checkInterrupt();
+		
 		File[] contents = dir.listFiles();
 		if (contents != null) {
 			for (File f : contents) {
+				checkInterrupt();
+				// FIXME hack
+				Thread.sleep(1000L);
 				if (f.isDirectory()) {
-					processDirectory(path, f);
-					reindex(path != null ? path + "/" + f.getName() : f.getName(), f); 
+					processDirectory(currentList, path, f);
+					reindex(currentList, path != null ? path + "/" + f.getName() : f.getName(), f); 
 				} else if (isAudioFile(f)) {
-					processTitle(path, f);
+					processTitle(currentList, path, f);
 				} else if (isCoverFile(f)) {
-					processCover(path, f);
+					processCover(currentList, path, f);
 				}
 			}
 		}
-		checkFlush();
+		checkFlush(currentList);
 	}
 
-	private void processDirectory(String path, File f) {
+	private void checkInterrupt() throws InterruptedException {
+		if (interrupt) {
+			throw new InterruptedException("Interrupted by user");
+		}
+		
+	}
+
+	private void processDirectory(List<Resource> currentList, String path, File f) {
 		if (!existsResource(TypeResource.FOLDER, path, f.getName())) {
 			Resource r = buildResource(TypeResource.FOLDER, path, f);
 			currentList.add(r);
@@ -114,14 +182,14 @@ public class ReindexService {
 		return hibernateRepository.findCount(crit) > 0;
 	}
 
-	private void checkFlush() {
+	private void checkFlush(List<Resource> currentList) {
 		if (currentList.size() > 100) {
-			flush();
+			flush(currentList);
 		}
 		
 	}
 
-	private void processCover(String path, File f) {
+	private void processCover(List<Resource> currentList, String path, File f) {
 		if (!existsResource(TypeResource.COVER, path, f.getName())) {
 			Resource r = buildResource(TypeResource.COVER, path, f);
 			currentList.add(r);
@@ -130,7 +198,7 @@ public class ReindexService {
 	}
 
 
-	private void processTitle(String path, File f) {
+	private void processTitle(List<Resource> currentList, String path, File f) {
 		if (!existsResource(TypeResource.AUDIO, path, f.getName())) {
 			Resource t = buildResource(TypeResource.AUDIO, path, f);
 			

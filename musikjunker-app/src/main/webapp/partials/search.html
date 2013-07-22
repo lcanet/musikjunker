@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<body >
+<div ng-controller="SearchController">
+
+<div class="two_third" ng-show="viewState.searchMode">
+    <h3>
+        search
+        |
+        <a href="" ng-click="viewState.change('browse')">browse</a>
+
+    </h3>
+
+    <form ng-submit="doSearch()">
+        <label for="inpQuerySearch">
+            Search songs (artist/title/album) :
+        </label>
+        <input type="text" ng-model="searchQuery" placeholder="search" id="inpQuerySearch"/>
+        <a href="" class="button blue" ng-click="doSearch()" style="margin-bottom: 0">search</a>
+
+    </form>
+
+    <table class="table-striped nb table_condensed" ng-show='searchResults != null'>
+        <thead ng-show="paginationAvailable()">
+        <tr>
+            <td colspan="2" class="pag_foot_prev">
+                <a href="" ng-click="getPrevPage()"
+                   ng-show="page.index != 0"
+                   class="button yellow">prev</a>
+                &nbsp;
+            </td>
+            <td colspan="3" class="pag_foot_next">
+                &nbsp;
+                <a href=""
+                   ng-show="page.index+20 < page.total"
+                   ng-click="getNextPage()" class="button yellow">next</a>
+            </td>
+
+        </tr>
+
+        </thead>
+        <thead>
+        <tr class="sortable_header">
+            <th>
+                <a href="" ng-click="doSort('artist')">artist</a>
+                <span ng-show="page.order == 'artist'">&Delta;</span>
+            </th>
+            <th>
+                <a href="" ng-click="doSort('album')">album</a>
+                <span ng-show="page.order == 'album'">&Delta;</span>
+            </th>
+            <th>
+                <a href="" ng-click="doSort('title')">title</a>
+                <span ng-show="page.order == 'title'">&Delta;</span>
+            </th>
+            <th>
+                <a href="" ng-click="doSort('genre')">genre</a>
+                <span ng-show="page.order == 'genre'">&Delta;</span>
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="s in searchResults">
+            <td>
+                <span ng-bind-html-unsafe="s.metadata.artist | hl:searchQueryHl"></span>
+                <span ng-bind-html-unsafe="s.fileName | hl:searchQueryHl" ng-hide="s.metadata.artist"></span>
+            </td>
+            <td>
+                <span ng-bind-html-unsafe="s.metadata.album | hl:searchQueryHl"></span>
+                <a href="" ng-show="s.metadata.album != ''" ng-click="addAlbum(s)" class="lien_album">(all)</a>
+            </td>
+            <td>
+                <span ng-bind-html-unsafe="s.metadata.title | hl:searchQueryHl"></span>
+            </td>
+            <td>
+                <span title="{{s.metadata.genre}}">{{s.metadata.genre | trunc:20 }}</span>
+            </td>
+            <td>
+                <div class="table_toolbar">
+                    <a href="" ng-click="queueFile(s)"><i class="icon-plus-sign"></i></a>
+                    <a href="" ng-click="playFile(s)"><i class="icon-play"></i></a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</div>
+
+</body>
+</html>

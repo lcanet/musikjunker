@@ -8,6 +8,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>musikjunker-schemagen</artifactId>
+	<name>musikjunker - Schemagen</name>
 
 
 
@@ -31,9 +32,10 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 	</dependencies>
 

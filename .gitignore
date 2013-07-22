@@ -5,3 +5,8 @@ musikjunker-domain/target/
 musikjunker-schemagen/.classpath
 musikjunker-schemagen/sql/
 musikjunker-schemagen/target/
+musikjunker-app/.classpath
+musikjunker-app/target/
+musikjunker-embedded-launcher/.classpath
+musikjunker-embedded-launcher/target
+musikjunker-app/.externalToolBuilders

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<body >
+
+<div ng-controller="BrowseController">
+
+    <div class="one_third" ng-show="viewState.browseMode">
+        <h3>
+            browse
+            |
+            <a href="" ng-click="viewState.change('search')">search</a>
+
+        </h3>
+
+        <table class="table-striped nb table_condensed">
+            <thead>
+            <tr>
+                <th>
+                    {{dirStack | last}}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="dir in dirs">
+                <td>
+                    <i class="icon-arrow-up" ng-show="dir == '..'"></i>
+                    <a href="" ng-click="selectDir(dir)">
+                        {{dir}}
+                                <span ng-show="dir == '..'">
+                                    go up
+                                </span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+
+
+        </table>
+
+    </div>
+
+    <div class="one_third" ng-show="viewState.browseMode">
+        <h3>choose</h3>
+
+        <table class="table-striped nb table_condensed">
+            <thead>
+            <tr>
+                <th>
+                    <input ng-model="filterText" id="input_filter" placeholder="Filter" type="text"/>
+                    <a href="" ng-click="playAllFiles()"><i class="icon-fast-forward"></i></a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="f in files | filter:filterText">
+                <td>
+                    <a href="" ng-click="queueFile(f)"><i class="icon-plus-sign"></i></a>
+                    <a href="" ng-click="playFile(f)">{{f.fileName}}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+
+</body>
+</html>

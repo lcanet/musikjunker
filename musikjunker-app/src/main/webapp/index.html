@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="lct">
+    <meta name="description" content="Musikjunker">
+    <link rel="shortcut icon" href="lib/workless/img/favicon.png">
+
+    <!-- Mobile Viewport -->
+    <meta name="viewport" content="width=device-width">
+
+    <title>Musikjunker</title>
+    <link rel="stylesheet" href="css/musikjunker.css"/>
+    <link rel="stylesheet" href="lib/workless/workless-global.css"/>
+</head>
+<body class="blueish" id="top" ng-app="musikjunker" ng-controller="MainController">
+
+<section class="boxed">
+
+    <!-- main -->
+    <section id="main">
+
+        <!-- logo -->
+        <div id="logo">
+            <img src="lib/workless/img/logo.png" alt="Workless"/>
+            <small> musikjunker</small>
+        </div>
+        <!-- /logo -->
+
+        <!-- /nav -->
+        <hr/>
+
+        <header class="bg_shadow" style="height: 150px">
+            <div class="one_third coverbox" ng-cloak>
+                <table class="nb">
+                    <tr>
+                        <td class="nb">
+                            <a href="{{currentCover | coverurl}}" target="_blank">
+                                <img ng-src="{{currentCover | coverurl}}" alt="cover"
+                                     height="150"/>
+                            </a>
+
+                        </td>
+                        <td class="nb">
+                            <a href="" class="button small" ng-repeat="c in covers" ng-click="setCurrentCover(c)">
+                                {{c.fileName}}
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                &nbsp;
+            </div>
+            <div class="two_third last" ng-cloak>
+
+                <div class="bread" ng-show="currentlyPlaying != null">
+                    {{currentlyPlaying.metadata.artist}}
+                    <span class="sep">&gt;</span>
+                    {{currentlyPlaying.metadata.album}}
+                    <span class="sep">&gt;</span>
+                    {{currentlyPlaying.metadata.title}}
+                    (
+                    {{currentlyPlaying.metadata.year}}
+                    )
+                </div>
+
+                <junker-audio playlist="playlist" on-song-change="doOnPlayChange($song)"/>
+
+            </div>
+            <br/>
+            <br/>
+
+        </header>
+        <hr/>
+
+        <ng-include src="'partials/browse.html'"></ng-include>
+        <ng-include src="'partials/search.html'"></ng-include>
+
+        <ng-include src="'partials/playlist.html'"></ng-include>
+
+        <div style="height: 400px">
+
+        </div>
+        <hr/>
+
+        <footer class="one_full">
+            <p class="small muted">tekila.</p>
+        </footer>
+
+
+    </section>
+</section>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="lib/angular/angular.js"></script>
+
+<script src="js/lib.js"></script>
+<script src="js/app.js"></script>
+<script src="js/services.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/directives.js"></script>
+</body>
+</html>

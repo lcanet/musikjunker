@@ -1,0 +1,60 @@
+#input_filter {
+    margin: 0;
+}
+
+.table_toolbar {
+    width: 34px;
+}
+.table_condensed td {
+    padding: 5px 3px;
+}
+.table_condensed th {
+    padding: 5px;
+}
+
+.playbox {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+}
+
+.coverbox a.button {
+    margin-bottom: 4px;
+}
+
+.lien_album {
+    font-size: small;
+}
+
+.bread {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.bread .sep {
+    color: #2daebf;
+    font-weight: bold;
+}
+
+.hl {
+    color: blue;
+    font-weight: bold;
+}
+
+.pag_foot_prev {
+    text-align: left;
+
+}
+
+.pag_foot_next {
+    text-align: right;
+}
+
+.sortable_header a {
+    font-weight: bolder;
+}
+
+#tagCloudCanvas {
+    width: 100%;
+    height: 400px;
+}

@@ -9,6 +9,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<driver.mysql.version>5.1.6</driver.mysql.version>
 
 		<lib.spring.version>3.1.1.RELEASE</lib.spring.version>
 		<lib.hibernate.version>3.6.10.Final</lib.hibernate.version>
@@ -50,6 +51,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
+				<version>${lib.spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
 				<version>${lib.spring.version}</version>
 			</dependency>
 			<dependency>
@@ -203,6 +209,11 @@
 				<groupId>commons-configuration</groupId>
 				<artifactId>commons-configuration</artifactId>
 				<version>1.7</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-el</groupId>
@@ -384,6 +395,11 @@
 				<artifactId>jstl</artifactId>
 				<version>1.2</version>
 			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${driver.mysql.version}</version>
+			</dependency>
 
 
 
@@ -437,6 +453,7 @@
 	<modules>
 		<module>musikjunker-domain</module>
 		<module>musikjunker-schemagen</module>
+		<module>musikjunker-app</module>
 	</modules>
 
 </project>

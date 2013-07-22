@@ -2,3 +2,6 @@
 .settings/
 musikjunker-domain/.classpath
 musikjunker-domain/target/
+musikjunker-schemagen/.classpath
+musikjunker-schemagen/sql/
+musikjunker-schemagen/target/

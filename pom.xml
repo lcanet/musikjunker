@@ -436,6 +436,7 @@
 
 	<modules>
 		<module>musikjunker-domain</module>
+		<module>musikjunker-schemagen</module>
 	</modules>
 
 </project>

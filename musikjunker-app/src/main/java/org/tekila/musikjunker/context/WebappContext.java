@@ -17,6 +17,7 @@ import org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.tekila.musikjunker.web.converter.InputStreamHttpMessageConverter;
 import org.tekila.musikjunker.web.interceptor.CorsInterceptor;
 
 @Configuration
@@ -31,12 +32,12 @@ public class WebappContext extends WebMvcConfigurerAdapter{
 		messageConverters.add(new ByteArrayHttpMessageConverter());
 		messageConverters.add(stringConverter);
 		messageConverters.add(new ResourceHttpMessageConverter());
-		messageConverters.add(new SourceHttpMessageConverter<Source>());
 		messageConverters.add(new XmlAwareFormHttpMessageConverter());
 
+		messageConverters.add(new InputStreamHttpMessageConverter());
+		
 		messageConverters.add(new Jaxb2RootElementHttpMessageConverter());
 		messageConverters.add(new MappingJacksonHttpMessageConverter());
-		
 	}
 	
 	@Bean

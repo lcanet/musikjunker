@@ -99,7 +99,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		
+
 		<!-- Test mode server -->
 		<!-- Jetty -->
 		<dependency>
@@ -119,6 +119,11 @@
 			<artifactId>jetty-servlet</artifactId>
 			<version>${jetty.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 		</dependency>
 
 

@@ -22,13 +22,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.tekila.musikjunker.exception.AccessDeniedException;
 import org.tekila.musikjunker.exception.ResourceNotFoundException;
 import org.tekila.musikjunker.utils.Range;
 import org.tekila.musikjunker.utils.RangeInputStream;
 
 /**
- * TODO: Return buffered response (with range http header) TODO: apply file
- * filtering (security)
  * 
  * @author lc
  * 
@@ -47,8 +46,10 @@ public class ServeFileController {
 	public ResponseEntity<InputStream> getFile(@RequestParam(value = "f") String file, HttpServletRequest request)
 			throws IOException {
 
-		File f = new File(environment.getRequiredProperty("musikjunker.basedir"), file);
-
+		File rootDir = new File(environment.getRequiredProperty("musikjunker.basedir"));
+		File f = new File(rootDir, file);
+		checkFileAccess(rootDir, f);
+		
 		log.info("File request for {}", f.getAbsolutePath());
 
 		if (!f.exists()) {
@@ -129,6 +130,15 @@ public class ServeFileController {
 		}
 
 		return new ResponseEntity<InputStream>(in, headers, status);
+	}
+
+
+
+	private void checkFileAccess(File rootDir, File f) throws IOException {
+		String rootCanon = rootDir.getCanonicalPath();
+		if (!f.getCanonicalPath().startsWith(rootCanon)) {
+			throw new AccessDeniedException();
+		}
 	}
 
 

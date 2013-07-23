@@ -1,5 +1,6 @@
 package org.tekila.musikjunker.exception;
 
+
 public class ReindexStateException extends RuntimeException {
 
 	public ReindexStateException() {

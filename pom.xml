@@ -311,6 +311,14 @@
 				<artifactId>velocity</artifactId>
 				<version>1.7</version>
 			</dependency>
+
+			<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.12.0.GA</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>org.javatuples</groupId>
 				<artifactId>javatuples</artifactId>

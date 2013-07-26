@@ -20,7 +20,6 @@ import org.tekila.musikjunker.domain.TypeResource;
 import org.tekila.musikjunker.repository.HibernateRepository;
 
 /**
- *  TODO: Find a more efficient mechanism
  * @author lc
  *
  */
@@ -35,11 +34,16 @@ public class ShuffleController {
 	public List<Resource> random(@RequestParam(value="n", required=false, defaultValue="10") int size) {
 		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
 		crit.setProjection(Projections.max("id"));
+		
 		long maxId = hibernateRepository.findNumber(crit);
 		
 		List<Resource> lr = new ArrayList<Resource>();
 		Random r = new Random();
-		while (lr.size() < size) {
+		
+		// do max 100 requests
+		int maxTries = 10*size;
+		int nbTries = 0;
+		while (lr.size() < size && nbTries++ < maxTries) {
 			Long id = (long) r.nextInt((int) maxId);
 			Resource rr = hibernateRepository.get(Resource.class, id);
 			if (rr != null && rr.getType() == TypeResource.AUDIO) {

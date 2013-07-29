@@ -465,9 +465,8 @@
 
 
 	<modules>
-		<module>musikjunker-domain</module>
-		<module>musikjunker-schemagen</module>
 		<module>musikjunker-app</module>
+		<module>musikjunker-runner</module>
 	</modules>
 
 </project>

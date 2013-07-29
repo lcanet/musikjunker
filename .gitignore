@@ -10,3 +10,5 @@ musikjunker-app/target/
 musikjunker-embedded-launcher/.classpath
 musikjunker-embedded-launcher/target
 musikjunker-app/.externalToolBuilders
+musikjunker-runner/.classpath
+musikjunker-runner/target/

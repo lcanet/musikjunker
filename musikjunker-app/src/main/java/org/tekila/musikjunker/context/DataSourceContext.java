@@ -41,9 +41,9 @@ public class DataSourceContext {
 
 	private DataSource buildDataSourceEmbedded() {
 		BasicDataSource ds = new BasicDataSource();
-		ds.setDriverClassName("com.mysql.jdbc.Driver");
+		ds.setDriverClassName(environment.getRequiredProperty("musikjunker.db.driver"));
 
-		ds.setUrl("jdbc:mysql://" + environment.getRequiredProperty("musikjunker.db.host") + "/" + environment.getRequiredProperty("musikjunker.db.dbname"));
+		ds.setUrl(environment.getRequiredProperty("musikjunker.db.url"));
 		ds.setUsername(environment.getProperty("musikjunker.db.user"));
 		ds.setPassword(environment.getProperty("musikjunker.db.pass"));
 		ds.setInitialSize(2);

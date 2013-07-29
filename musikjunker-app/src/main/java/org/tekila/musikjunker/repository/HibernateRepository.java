@@ -1,22 +1,17 @@
 package org.tekila.musikjunker.repository;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.persister.entity.SingleTableEntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.stereotype.Component;
@@ -159,25 +154,6 @@ public class HibernateRepository {
 		for (T obj : lo) {
 			evict(obj);
 		}
-	}
-
-	public void truncate(final Class<?> clazz) {
-		hibernateTemplate.executeWithNativeSession(new HibernateCallback<Void>() {
-
-			@Override
-			public Void doInHibernate(Session session) throws HibernateException, SQLException {
-				ClassMetadata metadata = session.getSessionFactory().getClassMetadata(clazz);
-				if (metadata instanceof SingleTableEntityPersister) {
-					SingleTableEntityPersister set = (SingleTableEntityPersister) metadata;
-					String tbl = set.getTableName();
-					
-					SQLQuery sqlQuery = session.createSQLQuery("truncate table " + tbl);
-					sqlQuery.executeUpdate();
-				}
-				return null;
-			}
-		});
-		
 	}
 
 	public <T> void save(T t) {

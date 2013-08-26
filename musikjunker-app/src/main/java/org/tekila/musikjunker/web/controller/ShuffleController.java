@@ -36,7 +36,6 @@ public class ShuffleController {
 		crit.setProjection(Projections.max("id"));
 		
 		long maxId = hibernateRepository.findNumber(crit);
-		
 		List<Resource> lr = new ArrayList<Resource>();
 		Random r = new Random();
 		
@@ -44,7 +43,7 @@ public class ShuffleController {
 		int maxTries = 10*size;
 		int nbTries = 0;
 		while (lr.size() < size && nbTries++ < maxTries) {
-			Long id = (long) r.nextInt((int) maxId);
+			Long id = (long) r.nextInt(1 + (int) maxId);
 			Resource rr = hibernateRepository.get(Resource.class, id);
 			if (rr != null && rr.getType() == TypeResource.AUDIO) {
 				lr.add(rr);

@@ -117,7 +117,7 @@ function BrowseController($scope, $http, $location, $filter) {
 }
 
 
-function MainController($scope, $http, $filter, titleUpdater) {
+function MainController($scope, $http, $filter, titleUpdater, desktopNotification, $q) {
 
     $scope.playlist = [];
     $scope.currentlyPlaying = null;
@@ -139,14 +139,23 @@ function MainController($scope, $http, $filter, titleUpdater) {
     function refreshCovers(path) {
         $scope.covers = [];
         $scope.currentCover = null;
+
+        var defer = $q.defer();
+
         if (path) {
             $http.get("services/covers?dir=" + path).success(function(data) {
                 $scope.covers = data;
                 if ($scope.covers.length > 0){
                     $scope.currentCover = $scope.covers[0];
+                    defer.resolve($scope.currentCover);
+                } else {
+                    defer.resolve(null);
                 }
             });
+        } else {
+            defer.reject(null);
         }
+        return defer.promise;
     }
 
     $scope.setPlayList = function(newarr) {
@@ -193,15 +202,29 @@ function MainController($scope, $http, $filter, titleUpdater) {
     };
 
     var fnFormatSong = $filter('songlabel');
+    var fnCoverUrl = $filter('coverurl');
 
     $scope.doOnPlayChange = function($song) {
-        refreshCovers($song ? $song.path : null)
+        var p = refreshCovers($song ? $song.path : null)
         $scope.currentlyPlaying = $song;
 
         // title
         titleUpdater.setTitle($song != null ?
                 fnFormatSong($song) :
                 "Musikjunker");
+
+        if ($song != null && p){
+            p.then(function(cover){
+                var coverUrl = null;
+                if (cover) {
+                    coverUrl = fnCoverUrl(cover);
+                }
+                desktopNotification.notify('Musikjunker',
+                    fnFormatSong($song),
+                    coverUrl);
+
+            });
+        }
     };
 
     $scope.setCurrentCover = function(c) {

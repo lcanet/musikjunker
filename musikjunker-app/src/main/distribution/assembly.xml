@@ -1,0 +1,45 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>pseudowar</id>
+	<baseDirectory>/</baseDirectory>
+	<formats>
+		<format>war</format>
+	</formats>
+
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>/</outputDirectory>
+			<scope>compile</scope>
+			<useProjectArtifact>true</useProjectArtifact>
+			<includes>
+				<include>org.tekila.musikjunker:musikjunker-app</include>
+			</includes>
+			<unpack>true</unpack>
+					<unpackOptions>
+
+				<excludes>
+					<exclude>WEB-INF/lib/**</exclude>
+				</excludes>
+			<includes>
+				<include>**/*.js</include>
+				<include>**/*.css</include>
+				<include>**/*.html</include>
+				<include>**/*.png</include>
+				<include>**/*.jpg</include>
+				<include>**/*.gif</include>
+				<include>**/*.ttf</include>
+				<include>**/*.svg</include>
+				<include>**/*.woff</include>
+				<include>**/*.xml</include>
+				<include>WEB-INF/lib/jaudiotagger*</include>
+			</includes>
+			</unpackOptions>
+
+		</dependencySet>
+	</dependencySets>
+
+</assembly>
+
+

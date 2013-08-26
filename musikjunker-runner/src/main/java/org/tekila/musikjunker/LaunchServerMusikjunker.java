@@ -25,6 +25,7 @@ public class LaunchServerMusikjunker {
 	public static void main(String[] args) throws Exception {
 		
 		int port = 30180;
+		String configFile = "musikjunker.properties";
 
 		// parse command line
 		for (int i = 0; i < args.length; i++) {
@@ -45,9 +46,19 @@ public class LaunchServerMusikjunker {
 					System.exit(-3);
 				}
 			}
+			if (arg.equalsIgnoreCase("-config")) {
+				if (i == (args.length-1)) {
+					System.err.println("Error: port not providen");
+					System.exit(-2);
+				}
+				configFile = args[++i];
+			}
 		}
 		
-		log.info("Running server on port {}", port);
+		
+		log.info("Running server on port {} with config file {}", port, configFile);
+		
+		System.setProperty("tekila.musikjunker.configfile", configFile);
 		
 		Server server = new Server();
         Connector connector = new SelectChannelConnector();

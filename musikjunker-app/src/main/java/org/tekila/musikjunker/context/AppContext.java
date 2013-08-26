@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration
-@PropertySource({"file:musikjunker.properties"})
+@PropertySource({"file:${tekila.musikjunker.configfile}"})
 @ComponentScan(basePackages = {"org.tekila.musikjunker"})
 @Import({DataSourceContext.class, HibernateContext.class})
 @EnableAsync

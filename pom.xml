@@ -15,6 +15,12 @@
 		<lib.hibernate.version>3.6.10.Final</lib.hibernate.version>
 	</properties>
 
+	<scm>
+		<connection>scm:git:git://github.com:lcanet/musikjunker.git</connection>
+		<developerConnection>scm:git:git@github.com:lcanet/musikjunker.git</developerConnection>
+		<url>https://github.com/lcanet/musikjunker</url>
+	</scm>
+
 	<!-- Definition of commonly used libraries -->
 	<dependencyManagement>
 		<dependencies>

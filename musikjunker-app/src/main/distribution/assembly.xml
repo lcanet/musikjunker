@@ -34,6 +34,7 @@
 				<include>**/*.woff</include>
 				<include>**/*.xml</include>
 				<include>WEB-INF/lib/jaudiotagger*</include>
+				<include>WEB-INF/classes/**</include>
 			</includes>
 			</unpackOptions>
 

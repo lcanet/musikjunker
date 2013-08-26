@@ -472,6 +472,7 @@
 	<modules>
 		<module>musikjunker-app</module>
 		<module>musikjunker-runner</module>
+		<module>musikjunker-ear</module>
 	</modules>
 
 </project>

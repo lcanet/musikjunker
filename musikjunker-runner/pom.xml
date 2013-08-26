@@ -123,4 +123,18 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>eclipse</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.tekila.musikjunker</groupId>
+					<artifactId>musikjunker-app</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+
 </project>

@@ -66,7 +66,6 @@ public class LaunchServerMusikjunker {
         	log.info("Using exploded WAR from sources");
         	log.info("If you see class not found exceptions, maybe you're not running with the exploded war in classpath (your IDE usually does that)");
             wac.setWar("../musikjunker-app/src/main/webapp");
-            
         }
         
         wac.setDefaultsDescriptor("jetty-webdefault.xml");

@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>musikjunker-parent</artifactId>
 		<groupId>org.tekila.musikjunker</groupId>
-		<version>1.3</version>
+		<version>1.4-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>musikjunker-app</artifactId>

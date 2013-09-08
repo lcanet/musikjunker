@@ -17,27 +17,33 @@
 				<include>org.tekila.musikjunker:musikjunker-app</include>
 			</includes>
 			<unpack>true</unpack>
-					<unpackOptions>
+			<unpackOptions>
 
 				<excludes>
 					<exclude>WEB-INF/lib/**</exclude>
 				</excludes>
-			<includes>
-				<include>**/*.js</include>
-				<include>**/*.css</include>
-				<include>**/*.html</include>
-				<include>**/*.png</include>
-				<include>**/*.jpg</include>
-				<include>**/*.gif</include>
-				<include>**/*.ttf</include>
-				<include>**/*.svg</include>
-				<include>**/*.woff</include>
-				<include>**/*.xml</include>
-				<include>WEB-INF/lib/jaudiotagger*</include>
-				<include>WEB-INF/classes/**</include>
-			</includes>
+				<includes>
+					<include>**/*.js</include>
+					<include>**/*.css</include>
+					<include>**/*.html</include>
+					<include>**/*.png</include>
+					<include>**/*.jpg</include>
+					<include>**/*.gif</include>
+					<include>**/*.ttf</include>
+					<include>**/*.svg</include>
+					<include>**/*.woff</include>
+					<include>**/*.xml</include>
+					<include>WEB-INF/classes/**</include>
+				</includes>
 			</unpackOptions>
-
+		</dependencySet>
+		
+		<dependencySet>
+			<includes>
+				<include>org:jaudiotagger</include>
+			</includes>
+			<unpack>false</unpack>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 

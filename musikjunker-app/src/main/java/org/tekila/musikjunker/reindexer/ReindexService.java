@@ -131,8 +131,6 @@ public class ReindexService {
 		if (contents != null) {
 			for (File f : contents) {
 				checkInterrupt();
-				// FIXME hack
-				Thread.sleep(1000L);
 				if (f.isDirectory()) {
 					processDirectory(currentList, path, f);
 					reindex(currentList, path != null ? path + "/" + f.getName() : f.getName(), f); 

@@ -66,5 +66,16 @@ public class ShuffleController {
 		return raw.subList(0, Math.min(size, raw.size()));
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/stars/random", method=RequestMethod.GET)
+	public List<Resource> randomStars(@RequestParam(value="n", required=false, defaultValue="10") int size) {
+		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
+		crit.add(Restrictions.gt("stars", 0));
+		List<Resource> raw = hibernateRepository.findByCriteria(crit);
+		Collections.shuffle(raw);
+		return raw.subList(0, Math.min(size, raw.size()));
+	}
+
+
 
 }

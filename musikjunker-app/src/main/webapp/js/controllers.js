@@ -236,7 +236,11 @@ function MainController($scope, $http, $filter, titleUpdater, desktopNotificatio
             $scope.playlist = data;
         });
     };
-
+    $scope.loadStarred = function() {
+        $http.get("services/stars/random?n=20").success(function(data) {
+            $scope.playlist = data;
+        });
+    };
 
 
 }

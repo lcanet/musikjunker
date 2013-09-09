@@ -60,10 +60,31 @@
 }
 
 .star-selector {
+    padding-top: 10px;
     cursor: pointer;
 }
-.star-selector .reset-icon {
+.star-selector:hover {
+    background-color: #F7EDD4;
+    border: 3px solid #FFE1B6;
+    border-radius: 4px;
+    padding-right: 4px;
+}
+.star-selector .hover-label {
+    visibility: hidden;
+    font-size: 1.4em;
+    padding-left: 10px;
+    font-weight: bold;
+    color: #ffbf45;
+}
+.star-selector:hover .hover-label {
+    visibility: visible;
+}
+
+.star-selector .reset-star {
     font-size: 0.8em;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
 }
 
 .star {

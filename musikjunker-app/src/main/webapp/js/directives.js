@@ -53,10 +53,11 @@ angular.module("musikjunker").directive("junkerAudio", function($parse) {
 angular.module("musikjunker").directive("stars", function($http) {
     return {
         restrict: "E",
-        template: '<span ng-show="id != null" ng-mouseleave="onMouseLeave()" class="star-selector">' +
+        template: '<div ng-show="id != null" ng-mouseleave="onMouseLeave()" class="star-selector">' +
+            '<span class="reset-star" ng-click="resetStars()" ng-mouseover="onMouseOver(0)"></span>' +
             '<span class="star" ng-repeat="n in levels" data-starlevel="{{ n }}" ng-click="doStar(n)" ng-mouseover="onMouseOver(n)"></span>' +
-            '<i class="icon icon-trash reset-icon" ng-click="resetStars()" ng-mouseover="onMouseOver(0)"></i> ' +
-            '</span>',
+            '<span class="hover-label">Star this song !</span>' +
+            '</div>',
         replace: true,
         scope: {
             stars: "=",

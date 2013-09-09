@@ -49,3 +49,73 @@ angular.module("musikjunker").directive("junkerAudio", function($parse) {
         }
     };
 });
+
+angular.module("musikjunker").directive("stars", function($http) {
+    return {
+        restrict: "E",
+        template: '<span ng-show="id != null" ng-mouseleave="onMouseLeave()" class="star-selector">' +
+            '<span class="star" ng-repeat="n in levels" data-starlevel="{{ n }}" ng-click="doStar(n)" ng-mouseover="onMouseOver(n)"></span>' +
+            '<i class="icon icon-trash reset-icon" ng-click="resetStars()" ng-mouseover="onMouseOver(0)"></i> ' +
+            '</span>',
+        replace: true,
+        scope: {
+            stars: "=",
+            id: "="
+        },
+        transclude: true,
+        link: function(scope, elt, attrs) {
+            scope.levels = [1,2,3,4,5];
+
+            scope.resetStars = function(){
+                scope.doStar(0);
+            };
+            scope.doStar = function(x) {
+                $http.post('services/song/' + scope.id + '/star?n=' + x).
+                    success(function(){
+                        scope.stars = x;
+                    });
+            };
+
+            function updateClasses(nb) {
+                var stars = elt.find('.star');
+                $.each(stars, function(i, elt){
+                    var level = i+1;
+                    $(elt).toggleClass('starred', nb >= level);
+                });
+            }
+            scope.$watch("stars", function(nval){
+                updateClasses(nval);
+            });
+            scope.onMouseOver = function(n) {
+                updateClasses(n);
+            };
+            scope.onMouseLeave = function() {
+                updateClasses(scope.stars);
+            };
+
+        }
+    };
+});
+
+angular.module("musikjunker").directive("starsDisplay", function($http) {
+    return {
+        restrict: "E",
+        template: '<span>' +
+            '<span class="star-small" ng-show="isStarred(1)"></span> ' +
+            '<span class="star-small" ng-show="isStarred(2)"></span> ' +
+            '<span class="star-small" ng-show="isStarred(3)"></span> ' +
+            '<span class="star-small" ng-show="isStarred(4)"></span> ' +
+            '<span class="star-small" ng-show="isStarred(5)"></span> ' +
+            '</span>',
+        replace: true,
+        scope: {
+            stars: "="
+        },
+        transclude: true,
+        link: function(scope, elt, attrs) {
+            scope.isStarred = function(x){
+                return scope.stars >= x;
+            };
+        }
+    };
+});

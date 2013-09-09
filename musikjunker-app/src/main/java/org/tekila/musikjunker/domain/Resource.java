@@ -51,6 +51,8 @@ public class Resource {
 	@Embedded
 	private ID3 metadata = new ID3();
 	
+	@Column
+	private int stars = 0;
 
 
 }

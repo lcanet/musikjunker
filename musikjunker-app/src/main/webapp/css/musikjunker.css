@@ -58,3 +58,32 @@
     width: 100%;
     height: 400px;
 }
+
+.star-selector {
+    cursor: pointer;
+}
+.star-selector .reset-icon {
+    font-size: 0.8em;
+}
+
+.star {
+    background: url('../img/star-off-big.png');
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    cursor: hand;
+
+}
+.star.starred {
+    background: url('../img/star-on-big.png')
+}
+
+
+.star-small {
+    background: url('../img/star-on.png');
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    cursor: hand;
+
+}

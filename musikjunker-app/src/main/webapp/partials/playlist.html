@@ -22,6 +22,7 @@
                 <a href="" ng-click="dequeueFile($index)"><i class="icon-minus-sign"></i></a>
                 <a href="" ng-click="moveToTop($index)"><i class="icon-arrow-up"></i></a>
                 {{f | songlabel}}
+                <stars-display stars="f.stars"></stars-display>
                 <span class="notification blue">{{f.duration | songduration}}</span>
 
 

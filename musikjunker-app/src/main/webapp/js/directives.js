@@ -21,7 +21,7 @@ angular.module("musikjunker").directive("junkerAudio", function($parse) {
                 if (pl.length > 0) {
                     var song = pl[0];
                     if (currentPlayingFile == null || currentPlayingFile.id != song.id){
-                        var songPath = "services/file?f=" + song.path + '/' + song.fileName;
+                        var songPath = "services/file?f=" + encodeURIComponent(song.path) + '/' + encodeURIComponent(song.fileName);
                         currentPlayingFile = song;
                         audio.setAttribute("src", songPath);
                         audio.play();

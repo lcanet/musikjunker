@@ -76,6 +76,18 @@ public class ShuffleController {
 		return raw.subList(0, Math.min(size, raw.size()));
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/dir/random", method=RequestMethod.GET)
+	public List<Resource> randomFromDir(@RequestParam(value="n", required=false, defaultValue="10") int size,
+			@RequestParam(value="dir", required=true) String dir) {
+		
+		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
+		crit.add(Restrictions.like("path", dir, MatchMode.START));
+		List<Resource> raw = hibernateRepository.findByCriteria(crit);
+		Collections.shuffle(raw);
+		return raw.subList(0, Math.min(size, raw.size()));
+	}
+
 
 
 }

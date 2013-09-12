@@ -106,6 +106,12 @@ function BrowseController($scope, $http, $location, $filter) {
         $scope.setPlayList($scope.playlist.concat(newplaylist));
     };
 
+    $scope.randomFromDir = function(dirStack) {
+        var dir = dirStack.join('/');
+        $http.get("services/dir/random?n=20&dir=" + encodeURIComponent(dir)).success(function(data) {
+            $scope.setPlayList(data);
+        });
+    };
 
     // fin: init selon le path de l'url
     var path = $location.path();

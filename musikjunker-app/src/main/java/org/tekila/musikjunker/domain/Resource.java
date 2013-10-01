@@ -17,6 +17,7 @@ import lombok.Data;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+import org.hibernate.annotations.Index;
 
 @Data
 @Entity
@@ -40,6 +41,7 @@ public class Resource {
 	private Date addedDate;
 	
 	@Column(length = 1024)
+	@Index(name="idx_path")
 	private String path;
 
 	@Column(length = 255)
@@ -53,6 +55,10 @@ public class Resource {
 	
 	@Column
 	private int stars = 0;
+	
+	@Column(length = 64)
+	@Index(name="idx_hash")
+	private String hash;
 
 
 }

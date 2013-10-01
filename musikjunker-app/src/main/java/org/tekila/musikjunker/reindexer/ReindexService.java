@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.DigestUtils;
 import org.tekila.musikjunker.domain.Resource;
 import org.tekila.musikjunker.domain.TypeResource;
 import org.tekila.musikjunker.exception.ReindexStateException;
@@ -166,6 +167,7 @@ public class ReindexService {
 		r.setType(type);
 		r.setPath(path);
 		r.setFileName(f.getName());
+		r.setHash(DigestUtils.md5DigestAsHex(f.getAbsolutePath().getBytes()));
 		return r;
 	}
 

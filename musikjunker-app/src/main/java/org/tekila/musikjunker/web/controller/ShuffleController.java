@@ -3,14 +3,13 @@ package org.tekila.musikjunker.web.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,22 +31,19 @@ public class ShuffleController {
 	@ResponseBody
 	@RequestMapping(value="/random", method=RequestMethod.GET)
 	public List<Resource> random(@RequestParam(value="n", required=false, defaultValue="10") int size) {
-		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
-		crit.setProjection(Projections.max("id"));
 		
-		long maxId = hibernateRepository.findNumber(crit);
-		List<Resource> lr = new ArrayList<Resource>();
-		Random r = new Random();
+		String randomHash = DigestUtils.md5DigestAsHex(Long.toString(System.currentTimeMillis()).getBytes());
 		
-		// do max 100 requests
-		int maxTries = 10*size;
+		// do max 10 requests
+		int maxTries = 10;
 		int nbTries = 0;
+		List<Resource> lr = new ArrayList<Resource>();
 		while (lr.size() < size && nbTries++ < maxTries) {
-			Long id = (long) r.nextInt(1 + (int) maxId);
-			Resource rr = hibernateRepository.get(Resource.class, id);
-			if (rr != null && rr.getType() == TypeResource.AUDIO) {
-				lr.add(rr);
-			}
+			DetachedCriteria criteria = DetachedCriteria.forClass(Resource.class);
+			criteria.add(Restrictions.gt("hash", randomHash));
+			criteria.add(Restrictions.eq("type", TypeResource.AUDIO));
+			List<Resource> list = hibernateRepository.findByCriteria(criteria, 0, size);
+			lr.addAll(list);
 		}
 		
 		return lr;

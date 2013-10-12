@@ -106,8 +106,21 @@
     height: 16px;
     display: inline-block;
     cursor: hand;
-
 }
+
+.moreinfos-box {
+    margin-left: 20px;
+}
+.moreinfos-content {
+    border: 1px solid gray;
+    padding: 5px;
+    background-color: #f0f0f0;
+}
+.moreinfos-content .error {
+    font-weight: bold;
+    color: #900000;
+}
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }

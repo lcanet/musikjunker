@@ -129,6 +129,7 @@ function MainController($scope, $http, $filter, titleUpdater, desktopNotificatio
     $scope.currentlyPlaying = null;
     $scope.covers = [];
     $scope.currentCover = null;
+    $scope.wikiInfo = null;
 
     $scope.viewState = {
         browseMode: true,
@@ -231,6 +232,7 @@ function MainController($scope, $http, $filter, titleUpdater, desktopNotificatio
 
             });
         }
+        $scope.wikiInfo = null;
     };
 
     $scope.setCurrentCover = function(c) {
@@ -246,6 +248,33 @@ function MainController($scope, $http, $filter, titleUpdater, desktopNotificatio
         $http.get("services/stars/random?n=20").success(function(data) {
             $scope.playlist = data;
         });
+    };
+
+    $scope.loadWikiInfos = function() {
+        if ($scope.wikiInfo) {
+            $scope.wikiInfo = null;
+        } else {
+
+            if ($scope.currentlyPlaying && $scope.currentlyPlaying.metadata.artist) {
+                $http.get("services/wiki?q=" + $scope.currentlyPlaying.metadata.artist).success(function(data){
+                    var pages = data.query.pages;
+                    var foundPage = null;
+                    for (var p in pages) {
+                        if (p != "-1") {
+                            foundPage = pages[p];
+                            break;
+                        }
+                    }
+                    if (foundPage) {
+                        $scope.wikiInfo = foundPage.extract;
+                    } else{
+                        $scope.wikiInfo = '<p class="error">Not found</p>'
+                    }
+                }, function(){
+                    $scope.wikiInfo = '<p class="error">Error getting page</p>'
+                });
+            }
+        }
     };
 
 

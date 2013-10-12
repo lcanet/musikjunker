@@ -66,12 +66,20 @@
 
                 <junker-audio playlist="playlist" on-song-change="doOnPlayChange($song)"></junker-audio>
                 <stars id="currentlyPlaying.id" stars="currentlyPlaying.stars"></stars>
+                <div class="moreinfos-box">
+                    <a href="" ng-click="loadWikiInfos()" ng-show="currentlyPlaying != null" class="button green">more infos</a>
+                </div>
 
             </div>
             <br/>
             <br/>
 
         </header>
+        <div class="clearfix"></div>
+        <div class="moreinfos-content" ng-show="wikiInfo != null">
+            <div ng-bind-html-unsafe="wikiInfo"></div>
+        </div>
+
         <hr/>
 
         <ng-include src="'partials/browse.html'"></ng-include>

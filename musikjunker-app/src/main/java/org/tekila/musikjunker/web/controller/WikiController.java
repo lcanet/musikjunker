@@ -1,6 +1,8 @@
 package org.tekila.musikjunker.web.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +34,10 @@ public class WikiController {
 		sb.append("&prop=extracts");
 		sb.append("&redirects=1");
 		sb.append("&titles=");
-		sb.append(q);
+		try {
+			sb.append(URLEncoder.encode(q, "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+		}
 		
 		log.debug("Requesting wiki content using uri {}", sb.toString());
 		

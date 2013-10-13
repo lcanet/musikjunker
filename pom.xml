@@ -2,7 +2,7 @@
 	<groupId>org.tekila.musikjunker</groupId>
 	<artifactId>musikjunker-parent</artifactId>
 	<name>musikjunker - Parent</name>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.4</version>
 	<packaging>pom</packaging>
 	<modelVersion>4.0.0</modelVersion>
 

@@ -475,4 +475,18 @@
 		<module>musikjunker-ear</module>
 	</modules>
 
+		<distributionManagement>
+		<repository>
+			<id>ci-releases</id>
+			<name>Local repo on CI Server</name>
+			<url>file:///home/www/maven</url>
+		</repository>
+		<snapshotRepository>
+			<id>ci-snapshots</id>
+			<name>Tekila repo</name>
+			<url>file:///home/www/maven</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
 </project>

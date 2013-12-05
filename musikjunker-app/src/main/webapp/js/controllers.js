@@ -123,7 +123,7 @@ function BrowseController($scope, $http, $location, $filter) {
 }
 
 
-function MainController($scope, $http, $filter, titleUpdater, desktopNotification, $q) {
+function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopNotification, $q) {
 
     $scope.playlist = [];
     $scope.currentlyPlaying = null;
@@ -211,6 +211,8 @@ function MainController($scope, $http, $filter, titleUpdater, desktopNotificatio
     var fnFormatSong = $filter('songlabel');
     var fnCoverUrl = $filter('coverurl');
 
+    var timer;
+
     $scope.doOnPlayChange = function($song) {
         var p = refreshCovers($song ? $song.path : null)
         $scope.currentlyPlaying = $song;
@@ -232,8 +234,21 @@ function MainController($scope, $http, $filter, titleUpdater, desktopNotificatio
 
             });
         }
+        if (timer) {
+            $timeout.cancel(timer);
+            timer = null;
+        }
+        if ($song) {
+            timer = $timeout(function(){
+                incrementPlay($song);
+            }, 3000);
+        }
         $scope.wikiInfo = null;
     };
+
+    function incrementPlay($song) {
+        $http.post("services/song/" + $song.id + "/incrementPlayStats");
+    }
 
     $scope.setCurrentCover = function(c) {
         $scope.currentCover = c;

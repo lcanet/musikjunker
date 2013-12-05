@@ -25,7 +25,7 @@
                 {{f | songlabel}}
                 <stars-display stars="f.stars"></stars-display>
                 <span class="notification blue">{{f.duration | songduration}}</span>
-
+                <span class="notification magenta" ng-show="f.playStats > 0">{{f.playStats}}</span>
 
             </td>
         </tr>

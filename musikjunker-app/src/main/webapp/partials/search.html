@@ -74,6 +74,7 @@
             </td>
             <td>
                 <span ng-bind-html-unsafe="s.metadata.title | hl:searchQueryHl"></span>
+                <span class="notification magenta" ng-show="s.playStats > 0">{{s.playStats}}</span>
             </td>
             <td>
                 <span title="{{s.metadata.genre}}">{{s.metadata.genre | trunc:20 }}</span>

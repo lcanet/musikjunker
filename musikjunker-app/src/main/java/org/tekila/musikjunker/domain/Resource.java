@@ -59,6 +59,14 @@ public class Resource {
 	@Column(length = 64)
 	@Index(name="idx_hash")
 	private String hash;
+	
+	@Column
+	private int playStats = 0;
+
+	public void incrementPlayStats() {
+		playStats++;
+		
+	}
 
 
 }

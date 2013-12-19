@@ -19,13 +19,20 @@
         </thead>
         <tbody>
         <tr ng-repeat="f in playlist">
-            <td>
-                <a href="" ng-click="dequeueFile($index)"><i class="icon-minus-sign"></i></a>
-                <a href="" ng-click="moveToTop($index)"><i class="icon-arrow-up"></i></a>
+            <td class="playlist-item">
+                <a href="" class="playlist-action" ng-click="dequeueFile($index)"><i class="icon-remove-sign"></i></a>
+                <a href="" class="playlist-action" ng-click="moveToTop($index)"><i class="icon-arrow-up"></i></a>
                 {{f | songlabel}}
                 <stars-display stars="f.stars"></stars-display>
                 <span class="notification blue">{{f.duration | songduration}}</span>
                 <span class="notification magenta" ng-show="f.playStats > 0">{{f.playStats}}</span>
+                <a href="" class="playlist-action" ng-hide="f.ignoreShuffle" title="Ignore" ng-click="ignore(f)">
+                    <i class="icon-thumbs-down"></i>
+                </a>
+                <a href="" class="playlist-action" ng-show="f.ignoreShuffle" title="Un ignore" ng-click="unignore(f)">
+                    <i class="icon-thumbs-up"></i>
+                </a>
+
 
             </td>
         </tr>

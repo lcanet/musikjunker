@@ -42,6 +42,7 @@ public class ShuffleController {
 			DetachedCriteria criteria = DetachedCriteria.forClass(Resource.class);
 			criteria.add(Restrictions.gt("hash", randomHash));
 			criteria.add(Restrictions.eq("type", TypeResource.AUDIO));
+			criteria.add(Restrictions.ne("ignoreShuffle", true));
 			List<Resource> list = hibernateRepository.findByCriteria(criteria, 0, size);
 			lr.addAll(list);
 		}

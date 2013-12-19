@@ -113,6 +113,30 @@ function BrowseController($scope, $http, $location, $filter) {
         });
     };
 
+    function markFilesIgnored(status) {
+        if ($scope.files) {
+            var nb = $scope.files.length;
+            for (var i = 0; i < nb; i++) {
+                $scope.files[i].ignoreShuffle = status;
+            }
+        }
+    }
+
+    $scope.unignore = function(dirStack) {
+        var dir = dirStack.join('/');
+        $http.post('services/dir/unignore?dir=' + encodeURIComponent(dir)).success(function(){
+            markFilesIgnored(false);
+        });
+    };
+
+    $scope.ignore = function(dirStack) {
+        var dir = dirStack.join('/');
+        $http.post('services/dir/ignore?dir=' + encodeURIComponent(dir)).success(function(){
+            markFilesIgnored(true);
+        });
+    };
+
+
     // fin: init selon le path de l'url
     var path = $location.path();
     if (path && path != '/') {
@@ -241,7 +265,7 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
         if ($song) {
             timer = $timeout(function(){
                 incrementPlay($song);
-            }, 3000);
+            }, 10000);
         }
         $scope.wikiInfo = null;
     };
@@ -290,6 +314,19 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
                 });
             }
         }
+    };
+
+    $scope.unignore = function(f) {
+        $http.post('services/song/' + f.id + '/unignore').success(function(){
+            f.ignoreShuffle = false;
+        });
+
+    };
+    $scope.ignore = function(f) {
+        $http.post('services/song/' + f.id + '/ignore').success(function(){
+            f.ignoreShuffle = true;
+        });
+
     };
 
 

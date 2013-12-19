@@ -62,6 +62,9 @@ public class Resource {
 	
 	@Column
 	private int playStats = 0;
+	
+	@Column
+	private boolean ignoreShuffle;
 
 	public void incrementPlayStats() {
 		playStats++;

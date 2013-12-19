@@ -18,6 +18,8 @@
                 <th>
                     {{dirStack | last}}
                     <a href="" ng-click="randomFromDir(dirStack)"><i class="icon-fast-forward"></i></a>
+
+
                 </th>
             </tr>
             </thead>
@@ -49,6 +51,8 @@
                 <th>
                     <input ng-model="filterText" id="input_filter" placeholder="Filter" type="text"/>
                     <a href="" ng-click="playAllFiles()"><i class="icon-fast-forward"></i></a>
+                    <a href="" ng-click="ignore(dirStack)"><i class="icon-thumbs-down"></i> </a>
+                    <a href="" ng-click="unignore(dirStack)"><i class="icon-thumbs-up"></i> </a>
                 </th>
             </tr>
             </thead>

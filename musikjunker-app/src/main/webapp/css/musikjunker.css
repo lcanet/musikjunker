@@ -124,3 +124,10 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
+
+.playlist-item .playlist-action {
+    display: none;
+}
+.playlist-item:hover .playlist-action {
+    display: inline;
+}

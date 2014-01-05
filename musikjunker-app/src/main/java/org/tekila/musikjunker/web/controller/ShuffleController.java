@@ -58,6 +58,7 @@ public class ShuffleController {
 		
 		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
 		crit.add(Restrictions.ilike("metadata.genre", genre, MatchMode.ANYWHERE));
+		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		List<Resource> raw = hibernateRepository.findByCriteria(crit);
 		Collections.shuffle(raw);
 		return raw.subList(0, Math.min(size, raw.size()));
@@ -68,6 +69,7 @@ public class ShuffleController {
 	public List<Resource> randomStars(@RequestParam(value="n", required=false, defaultValue="10") int size) {
 		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
 		crit.add(Restrictions.gt("stars", 0));
+		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		List<Resource> raw = hibernateRepository.findByCriteria(crit);
 		Collections.shuffle(raw);
 		return raw.subList(0, Math.min(size, raw.size()));
@@ -79,6 +81,7 @@ public class ShuffleController {
 			@RequestParam(value="dir", required=true) String dir) {
 		
 		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
+		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		crit.add(Restrictions.like("path", dir, MatchMode.START));
 		List<Resource> raw = hibernateRepository.findByCriteria(crit);
 		Collections.shuffle(raw);

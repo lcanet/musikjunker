@@ -126,6 +126,7 @@ public class BrowseController {
 		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		crit.add(Restrictions.eq("metadata.album", q));
 		crit.addOrder(Order.asc("fileName"));
+		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		
 		return hibernateRepository.findByCriteria(crit);
 	}

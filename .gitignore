@@ -12,3 +12,4 @@ musikjunker-embedded-launcher/target
 musikjunker-app/.externalToolBuilders
 musikjunker-runner/.classpath
 musikjunker-runner/target/
+musikjunker-app/src/main/webapp/.idea

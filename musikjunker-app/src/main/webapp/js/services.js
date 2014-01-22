@@ -10,6 +10,8 @@ angular.module('musikjunker').service('titleUpdater',
 
 angular.module('musikjunker').service('desktopNotification',
     function($cookieStore, $document, $timeout){
+        var DESKTOP_NOTIFICATIONS_DELAY = 5000;
+
         var service = {};
         service.enabled = false;
 
@@ -34,9 +36,9 @@ angular.module('musikjunker').service('desktopNotification',
                     content);
                 n.show();
                 $timeout(function(){
-                    n.close();
+                    n.cancel();
 
-                }, 5000);
+                }, DESKTOP_NOTIFICATIONS_DELAY);
             }
         };
 

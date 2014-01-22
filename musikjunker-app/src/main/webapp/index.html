@@ -68,6 +68,7 @@
                 <stars id="currentlyPlaying.id" stars="currentlyPlaying.stars"></stars>
                 <div class="moreinfos-box">
                     <a href="" ng-click="loadWikiInfos()" ng-show="currentlyPlaying != null" class="button green">more infos</a>
+                    <a href="" ng-click="loadSimilar()" ng-show="currentlyPlaying != null" class="button green">more tracks like this</a>
                 </div>
 
             </div>
@@ -78,6 +79,26 @@
         <div class="clearfix"></div>
         <div class="moreinfos-content" ng-show="wikiInfo != null">
             <div ng-bind-html-unsafe="wikiInfo"></div>
+        </div>
+
+        <div class="moretracks-content" ng-show="similarTracks != null || noTracksFound" ng-controller="MoreTracksLikeThisController">
+            <span class="notracks" ng-show="noTracksFound"><i class="icon icon-hearing-impaired"></i> No tracks found</span>
+            <div class="moretrack" ng-repeat="tr in similarTracks">
+                <a target="_blank" href="{{tr.url}}">
+                    <img class="cover" ng-src="{{getImageOfTrack(tr)}}"/>
+                </a>
+                <p class="artist">
+                    <a target="_blank" href="{{tr.url}}"><img src="img/lastfm.png"></a>
+                    {{ tr.artist.name }}
+                </p>
+                <p class="track">
+                    {{ tr.name }}
+                </p>
+                <p>
+                    <a href="" ng-click="searchSimilar(tr)"><i class="icon icon-cloud"></i> search similar</a>
+                </p>
+            </div>
+            <div class="clearfix"></div>
         </div>
 
         <hr/>

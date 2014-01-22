@@ -58,6 +58,10 @@ function SearchController($scope, $http) {
         });
     };
 
+    $scope.$on('SearchTrack', function($ev, q){
+        $scope.searchQuery = q;
+        $scope.doSearch();
+    });
 
 }
 
@@ -316,6 +320,35 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
         }
     };
 
+    var LASTFM_API_KEY = '128dc9c7cd594d65a187ebf400ea44fd';
+
+    $scope.loadSimilar = function() {
+        if ($scope.similarTracks != null) {
+            $scope.similarTracks = null;
+        } else if ($scope.currentlyPlaying && $scope.currentlyPlaying.metadata.artist && $scope.currentlyPlaying.metadata.title) {
+
+            $scope.noTracksFound = false;
+
+            var url = 'http://ws.audioscrobbler.com/2.0/?method=track.getsimilar' +
+                '&artist=' +  encodeURIComponent($scope.currentlyPlaying.metadata.artist) +
+                '&track=' + encodeURIComponent($scope.currentlyPlaying.metadata.title) +
+                '&api_key=' + LASTFM_API_KEY +
+                '&format=json';
+            $http.get(url).then(function(res){
+                var similar = res.data.similartracks;
+                console.log(res.data);
+                if (similar && similar.track && angular.isArray(similar.tracks)) {
+                    $scope.similarTracks = similar.track.slice(0, Math.min(20, similar.track.length));
+                } else {
+                    $scope.noTracksFound = true;
+                }
+            }, function(err){
+                console.error('Error requesting last.fm', err);
+                alert('Cannot get data!');
+            });
+        }
+    };
+
     $scope.unignore = function(f) {
         $http.post('services/song/' + f.id + '/unignore').success(function(){
             f.ignoreShuffle = false;
@@ -330,4 +363,25 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
     };
 
 
+}
+
+
+function MoreTracksLikeThisController($scope, $rootScope) {
+
+    $scope.getImageOfTrack = function(tr) {
+        if (!tr) return null;
+        var goodLink = null;
+        angular.forEach(tr.image, function(img){
+            if (img.size === 'small') {
+                goodLink = img['#text'];
+            }
+        });
+        return goodLink;
+    };
+
+    $scope.searchSimilar = function(track) {
+        var q = track.artist.name + ' ' + track.name;
+        $rootScope.$broadcast('SearchTrack', q);
+        $scope.viewState.change('search');
+    }
 }

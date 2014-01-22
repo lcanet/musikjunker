@@ -131,3 +131,23 @@
 .playlist-item:hover .playlist-action {
     display: inline;
 }
+
+.moretracks-content {
+
+}
+.moretrack {
+    float: left;
+    width: 30%;
+    height: 100px;
+    margin: 8px;
+    border: 1px solid #dff1df;
+    box-shadow: 1px 1px 12px #555;
+    padding: 5px;
+}
+.moretrack .artist {
+    font-weight: bold;
+}
+.moretrack .cover {
+    float: left;
+    max-height: 80px;
+}

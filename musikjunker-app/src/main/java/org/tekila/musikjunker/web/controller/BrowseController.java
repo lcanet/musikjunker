@@ -79,6 +79,8 @@ public class BrowseController {
 		SearchResults res = new SearchResults();
 
 		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
+		q = q.replace(' ', '%');
+		
 		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		crit.add(Restrictions.disjunction()
 				.add(Restrictions.ilike("fileName", q, MatchMode.ANYWHERE))

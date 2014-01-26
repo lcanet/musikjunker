@@ -151,7 +151,7 @@ function BrowseController($scope, $http, $location, $filter) {
 }
 
 
-function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopNotification, $q) {
+function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopNotification, $q, $sce) {
 
     $scope.playlist = [];
     $scope.currentlyPlaying = null;
@@ -309,12 +309,12 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
                         }
                     }
                     if (foundPage) {
-                        $scope.wikiInfo = foundPage.extract;
+                        $scope.wikiInfo = $sce.trustAsHtml(foundPage.extract);
                     } else{
-                        $scope.wikiInfo = '<p class="error">Not found</p>'
+                        $scope.wikiInfo = $sce.trustAsHtml('<p class="error">Not found</p>');
                     }
                 }, function(){
-                    $scope.wikiInfo = '<p class="error">Error getting page</p>'
+                    $scope.wikiInfo = $sce.trustAsHtml('<p class="error">Error getting page</p>');
                 });
             }
         }

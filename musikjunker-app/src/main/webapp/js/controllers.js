@@ -337,7 +337,7 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
             $http.get(url).then(function(res){
                 var similar = res.data.similartracks;
                 console.log(res.data);
-                if (similar && similar.track && angular.isArray(similar.tracks)) {
+                if (similar && similar.track && angular.isArray(similar.track)) {
                     $scope.similarTracks = similar.track.slice(0, Math.min(20, similar.track.length));
                 } else {
                     $scope.noTracksFound = true;
@@ -383,5 +383,7 @@ function MoreTracksLikeThisController($scope, $rootScope) {
         var q = track.artist.name + ' ' + track.name;
         $rootScope.$broadcast('SearchTrack', q);
         $scope.viewState.change('search');
+
+        $("#workZoneTopSeparator")[0].scrollIntoView( true );
     }
 }

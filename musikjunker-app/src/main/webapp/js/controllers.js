@@ -151,7 +151,7 @@ function BrowseController($scope, $http, $location, $filter) {
 }
 
 
-function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopNotification, $q, $sce) {
+function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce) {
 
     $scope.playlist = [];
     $scope.currentlyPlaying = null;
@@ -336,14 +336,14 @@ function MainController($timeout, $scope, $http, $filter, titleUpdater, desktopN
                 '&format=json';
             $http.get(url).then(function(res){
                 var similar = res.data.similartracks;
-                console.log(res.data);
+                $log.info("Similar tracks", similar);
                 if (similar && similar.track && angular.isArray(similar.track)) {
                     $scope.similarTracks = similar.track.slice(0, Math.min(20, similar.track.length));
                 } else {
                     $scope.noTracksFound = true;
                 }
             }, function(err){
-                console.error('Error requesting last.fm', err);
+                $log.error('Error requesting last.fm', err);
                 alert('Cannot get data!');
             });
         }

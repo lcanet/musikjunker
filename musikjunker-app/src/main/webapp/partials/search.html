@@ -67,6 +67,8 @@
             <td>
                 <span ng-bind-html="s.metadata.artist | hl:searchQueryHl"></span>
                 <span ng-bind-html="s.fileName | hl:searchQueryHl" ng-hide="s.metadata.artist"></span>
+                <stars-display stars="s.stars"></stars-display>
+
             </td>
             <td>
                 <span ng-bind-html="s.metadata.album | hl:searchQueryHl"></span>

@@ -65,15 +65,15 @@
         <tbody>
         <tr ng-repeat="s in searchResults">
             <td>
-                <span ng-bind-html-unsafe="s.metadata.artist | hl:searchQueryHl"></span>
-                <span ng-bind-html-unsafe="s.fileName | hl:searchQueryHl" ng-hide="s.metadata.artist"></span>
+                <span ng-bind-html="s.metadata.artist | hl:searchQueryHl"></span>
+                <span ng-bind-html="s.fileName | hl:searchQueryHl" ng-hide="s.metadata.artist"></span>
             </td>
             <td>
-                <span ng-bind-html-unsafe="s.metadata.album | hl:searchQueryHl"></span>
+                <span ng-bind-html="s.metadata.album | hl:searchQueryHl"></span>
                 <a href="" ng-show="s.metadata.album != ''" ng-click="addAlbum(s)" class="lien_album">(all)</a>
             </td>
             <td>
-                <span ng-bind-html-unsafe="s.metadata.title | hl:searchQueryHl"></span>
+                <span ng-bind-html="s.metadata.title | hl:searchQueryHl"></span>
                 <span class="notification magenta" ng-show="s.playStats > 0">{{s.playStats}}</span>
             </td>
             <td>

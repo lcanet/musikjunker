@@ -21,12 +21,12 @@ angular.module('musikjunker')
             }
         }
     })
-    .filter('hl', function(){
+    .filter('hl', function($sce){
       return function (t, hl) {
           if (t == null) {
               return "";
           }
-          return t.replace(new RegExp('(' + hl + ')', 'gi'), '<span class="hl">$1</span>');
+          return $sce.trustAsHtml(t.replace(new RegExp('(' + hl + ')', 'gi'), '<span class="hl">$1</span>'));
       }
     })
     .filter('trunc', function(){

@@ -45,3 +45,17 @@ angular.module('musikjunker').service('desktopNotification',
 
         return service;
     });
+
+angular.module('musikjunker').service('faviconChanger',
+    function($http){
+        this.setFavicon = function(song) {
+            var favicon
+            if (song) {
+                $("#favicon").attr("href", 'services/song/' + song.id + '/favicon');
+            } else {
+                $("#favicon").attr("href", 'lib/workless/img/favicon.png');
+            }
+
+        } ;
+    });
+

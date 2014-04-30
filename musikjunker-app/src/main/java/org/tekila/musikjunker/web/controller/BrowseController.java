@@ -1,7 +1,6 @@
 package org.tekila.musikjunker.web.controller;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -131,22 +130,5 @@ public class BrowseController {
 		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		
 		return hibernateRepository.findByCriteria(crit);
-	}
-
-	
-	private static class CoverComparator implements Comparator<Resource>  {
-		@Override
-		public int compare(Resource o1, Resource o2) {
-			String f1 = o1.getFileName().toLowerCase();
-			String f2 = o2.getFileName().toLowerCase();
-			
-			if (f1.contains("cover") || f1.contains("front")) {
-				return -1;
-			}
-			if (f2.contains("cover") || f2.contains("front")) {
-				return 1;
-			}
-			return f1.compareTo(f2);
-		}
 	}
 }

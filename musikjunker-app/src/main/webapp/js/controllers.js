@@ -146,7 +146,7 @@ function BrowseController($scope, $http, $filter) {
 }
 
 
-function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce, $location) {
+function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
 
     $scope.playlist = [];
     $scope.currentlyPlaying = null;
@@ -244,6 +244,8 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
         titleUpdater.setTitle($song != null ?
                 fnFormatSong($song) :
                 "Musikjunker");
+
+        faviconChanger.setFavicon($song);
 
         if ($song != null && p){
             p.then(function(cover){

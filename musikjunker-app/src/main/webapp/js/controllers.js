@@ -65,7 +65,7 @@ function SearchController($scope, $http) {
 
 }
 
-function BrowseController($scope, $http, $location, $filter) {
+function BrowseController($scope, $http, $filter) {
 
     $scope.dirs = [];
     $scope.dirStack = [];
@@ -97,7 +97,6 @@ function BrowseController($scope, $http, $location, $filter) {
             $scope.dirStack.push(dir);
         }
 
-        $location.path("/" + $scope.dirStack.join('/'));
         refreshCurrentDir();
     };
 
@@ -142,16 +141,12 @@ function BrowseController($scope, $http, $location, $filter) {
 
 
     // fin: init selon le path de l'url
-    var path = $location.path();
-    if (path && path != '/') {
-        $scope.dirStack = path.substring(1).split('/');
-    }
 
     refreshCurrentDir();
 }
 
 
-function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce) {
+function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce, $location) {
 
     $scope.playlist = [];
     $scope.currentlyPlaying = null;
@@ -270,6 +265,9 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
             timer = $timeout(function(){
                 incrementPlay($song);
             }, 10000);
+
+            var urlLabel = fnFormatSong($song).replace(/ /g, '_');
+            $location.path('/' + $song.id + '/' + urlLabel);
         }
         $scope.wikiInfo = null;
     };
@@ -361,6 +359,19 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
         });
 
     };
+
+    // load unique file if provided in url
+    var path = $location.path();
+    var idx = path.indexOf('/', 1);
+    if (idx != -1) {
+        var songId = path.substring(1, idx);
+        $log.info("Loading song #" + songId);
+        $http.get('services/song/' + songId).success(function(song){
+            if (song) {
+                $scope.setPlayList([song]);
+            }
+        });
+    }
 
 
 }

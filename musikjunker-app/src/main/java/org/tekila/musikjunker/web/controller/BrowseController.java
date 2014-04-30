@@ -133,6 +133,7 @@ public class BrowseController {
 		return hibernateRepository.findByCriteria(crit);
 	}
 
+	
 	private static class CoverComparator implements Comparator<Resource>  {
 		@Override
 		public int compare(Resource o1, Resource o2) {

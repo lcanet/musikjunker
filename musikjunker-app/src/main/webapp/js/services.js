@@ -16,13 +16,13 @@ angular.module('musikjunker').service('desktopNotification',
         service.enabled = false;
 
         service.checkNotifications = function(){
-            if (window.webkitNotifications) {
-                var perm = window.webkitNotifications.checkPermission();
-                if (perm === 0) { // 0 is PERMISSION_ALLOWED
+            if (window.Notification) {
+                var perm = window.Notification.permission;
+                if (perm == 'granted') {
                     service.enabled = true;
                 } else if (perm == 1) {
                     $document.one("click", function(){
-                        window.webkitNotifications.requestPermission();
+                        Notification.requestPermission();
                         service.enabled = true;
                     });
                 }
@@ -31,12 +31,12 @@ angular.module('musikjunker').service('desktopNotification',
 
         service.notify = function(title, content, link) {
             if (service.enabled) {
-                var n = window.webkitNotifications.createNotification(link,
-                    title,
-                    content);
-                n.show();
+                var n = new Notification(title, {
+                    body: content,
+                    icon: link
+                });
                 $timeout(function(){
-                    n.cancel();
+                    n.close();
 
                 }, DESKTOP_NOTIFICATIONS_DELAY);
             }

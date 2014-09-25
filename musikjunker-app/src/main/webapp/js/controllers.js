@@ -293,6 +293,13 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
         });
     };
 
+    $scope.loadNewFiles = function() {
+        $http.get("services/new/random?n=20&d=300").success(function(data) {
+            $scope.playlist = data;
+        });
+
+    };
+
     $scope.loadWikiInfos = function() {
         if ($scope.wikiInfo) {
             $scope.wikiInfo = null;

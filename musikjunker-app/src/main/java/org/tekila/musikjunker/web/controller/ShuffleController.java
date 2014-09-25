@@ -2,8 +2,10 @@ package org.tekila.musikjunker.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -83,6 +85,23 @@ public class ShuffleController {
 		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
 		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
 		crit.add(Restrictions.like("path", dir, MatchMode.START));
+		List<Resource> raw = hibernateRepository.findByCriteria(crit);
+		Collections.shuffle(raw);
+		return raw.subList(0, Math.min(size, raw.size()));
+	}
+
+
+
+	@ResponseBody
+	@RequestMapping(value="/new/random", method=RequestMethod.GET)
+	public List<Resource> randomNews(@RequestParam(value="n", required=false, defaultValue="10") int size,
+			@RequestParam(value="d", required=true) int days) {
+		
+		Date start = DateUtils.addDays(new Date(), -days);
+		
+		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
+		crit.add(Restrictions.eq("type", TypeResource.AUDIO));
+		crit.add(Restrictions.ge("fileDate", start));
 		List<Resource> raw = hibernateRepository.findByCriteria(crit);
 		Collections.shuffle(raw);
 		return raw.subList(0, Math.min(size, raw.size()));

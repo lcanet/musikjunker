@@ -20,7 +20,7 @@ angular.module('musikjunker').service('desktopNotification',
                 var perm = window.Notification.permission;
                 if (perm == 'granted') {
                     service.enabled = true;
-                } else if (perm == 1) {
+                } else if (perm == 'default') {
                     $document.one("click", function(){
                         Notification.requestPermission();
                         service.enabled = true;

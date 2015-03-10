@@ -156,13 +156,11 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
 
     $scope.viewState = {
         browseMode: true,
-        searchMode: false,
-        tagCloudMode: false
+        searchMode: false
     };
 
     $scope.viewState.change = function(mode) {
         $scope.viewState.searchMode = (mode == 'search');
-        $scope.viewState.tagCloudMode = (mode == 'tagcloud');
         $scope.viewState.browseMode = (mode == 'browse');
     };
 

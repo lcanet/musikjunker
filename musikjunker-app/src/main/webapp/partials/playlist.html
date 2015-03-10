@@ -1,49 +1,54 @@
 <!doctype html>
 <html lang="en">
-<body>
+<body >
 
-<div class="one_third last">
-    <h3>listen</h3>
-    <table class="table-striped nb">
-        <thead>
-        <tr>
-            <th>
-                playlist
-                <a href="" ng-click="clearPlaylist()"><i class="icon-stop"></i></a>
-                <a href="" ng-click="shufflePlaylist()"><i class="icon-random"></i></a>
-                <a href="" ng-click="skipFirst()"><i class="icon-forward"></i></a>
-                <a href="" style="font-size: smaller" ng-click="loadRandomPlayList()"> load random <i class="icon-headphones"></i></a>
-                <a href="" ng-click="loadStarred()"><i class="icon-star"></i></a>
-                <a href="" ng-click="loadNewFiles()"><i class="icon-bullhorn"></i></a>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="f in playlist">
-            <td class="playlist-item">
-                <a href="" class="playlist-action" ng-click="dequeueFile($index)"><i class="icon-remove-sign"></i></a>
-                <a href="" class="playlist-action" ng-click="moveToTop($index)"><i class="icon-arrow-up"></i></a>
-                {{f | songlabel}}
-                <stars-display stars="f.stars"></stars-display>
-                <span class="notification blue">{{f.duration | songduration}}</span>
-                <span class="notification magenta" ng-show="f.playStats > 0">{{f.playStats}}</span>
-                <a href="" class="playlist-action" ng-hide="f.ignoreShuffle" title="Ignore" ng-click="ignore(f)">
-                    <i class="icon-thumbs-down"></i>
-                </a>
-                <a href="" class="playlist-action" ng-show="f.ignoreShuffle" title="Un ignore" ng-click="unignore(f)">
-                    <i class="icon-thumbs-up"></i>
-                </a>
+<div ng-controller="PlaylistController">
+
+    <div class="two_third" ng-show="viewState.playlistMode">
+        <h3>
+            <a href="" ng-click="viewState.change('browse')">browse</a>
+            |
+            <a href="" ng-click="viewState.change('search')">search</a>
+            |
+            playlists
+        </h3>
+
+        <table class="table-striped nb table_condensed">
+            <thead>
+            <tr>
+                <th>
+                    <form ng-submit="addPlaylist()" name="addPlaylistForm" ng-required>
+                        <label for="inpplaylistname">
+                            Name :
+                        </label>
+                        <input type="text" ng-model="newPlaylist.name" placeholder="playlist name" id="inpplaylistname"/>
+                        <a href="" class="button blue" ng-click="addPlaylist()" style="margin-bottom: 0">add playlist</a>
+
+                    </form>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pl in playlists">
+                <td>
+                    <a href="" class="playlist-action" ng-click="deletePlaylist(pl)"><i class="icon-remove-sign"></i></a>
+                    {{ pl.name }}
+                </td>
+                <td>
+                    <a href="" class="playlist-action" ng-click="queuePlaylist(pl)"><i class="icon-headphones"></i></a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
 
-            </td>
-        </tr>
-        </tbody>
+
+    </div>
 
 
-    </table>
 
 </div>
-
 
 </body>
 </html>

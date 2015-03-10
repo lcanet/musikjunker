@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<body>
+
+<div class="one_third last">
+    <h3>listen</h3>
+    <table class="table-striped nb">
+        <thead>
+        <tr>
+            <th>
+                playlist
+                <a href="" ng-click="clearPlaylist()"><i class="icon-stop"></i></a>
+                <a href="" ng-click="shufflePlaylist()"><i class="icon-random"></i></a>
+                <a href="" ng-click="skipFirst()"><i class="icon-forward"></i></a>
+                <a href="" style="font-size: smaller" ng-click="loadRandomPlayList()"> load random <i class="icon-headphones"></i></a>
+                <a href="" ng-click="loadStarred()"><i class="icon-star"></i></a>
+                <a href="" ng-click="loadNewFiles()"><i class="icon-bullhorn"></i></a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="f in playlist">
+            <td class="playlist-item">
+                <a href="" class="playlist-action" ng-click="dequeueFile($index)"><i class="icon-remove-sign"></i></a>
+                <a href="" class="playlist-action" ng-click="moveToTop($index)"><i class="icon-arrow-up"></i></a>
+                {{f | songlabel}}
+                <stars-display stars="f.stars"></stars-display>
+                <span class="notification blue">{{f.duration | songduration}}</span>
+                <span class="notification magenta" ng-show="f.playStats > 0">{{f.playStats}}</span>
+                <a href="" class="playlist-action" ng-hide="f.ignoreShuffle" title="Ignore" ng-click="ignore(f)">
+                    <i class="icon-thumbs-down"></i>
+                </a>
+                <a href="" class="playlist-action" ng-show="f.ignoreShuffle" title="Un ignore" ng-click="unignore(f)">
+                    <i class="icon-thumbs-up"></i>
+                </a>
+
+
+            </td>
+        </tr>
+        </tbody>
+
+
+    </table>
+
+</div>
+
+
+</body>
+</html>

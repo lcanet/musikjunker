@@ -160,7 +160,12 @@ public class HibernateRepository {
 		hibernateTemplate.save(t);
 		
 	}
-	
+
+	public <T> void persist(T t) {
+		hibernateTemplate.persist(t);
+		
+	}
+
 	public <T> void saveOrUpdate(T o) {
 		hibernateTemplate.saveOrUpdate(o);
 		

@@ -14,12 +14,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.hibernate.annotations.Index;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class Resource {

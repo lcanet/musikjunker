@@ -145,6 +145,38 @@ function BrowseController($scope, $http, $filter) {
     refreshCurrentDir();
 }
 
+function PlaylistController($scope, $http) {
+
+    $scope.newPlaylist = {
+        name: ''
+    };
+
+    $scope.addPlaylist = function(){
+        if ($scope.addPlaylistForm.$valid) {
+            $http.post('services/playlist', $scope.newPlaylist).success(function(res){
+                $scope.playlists.push(res);
+                $scope.newPlaylist.name = '';
+            });
+        }
+    };
+
+    $scope.deletePlaylist = function(pl) {
+        $http.delete('services/playlist/' + pl.id).success(function(res){
+            var ip = $scope.playlists.indexOf(pl);
+            $scope.playlists.splice(ip, 1);
+        });
+    };
+
+    $http.get('services/playlists').success(function(res){
+        $scope.playlists =  res;
+    });
+
+    $scope.queuePlaylist = function(pl) {
+        $http.get('services/playlist/' + pl.id).success(function(res){
+            $scope.setPlayList(res.songs);
+        });
+    };
+}
 
 function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
 
@@ -156,12 +188,14 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
 
     $scope.viewState = {
         browseMode: true,
-        searchMode: false
+        searchMode: false,
+        playlistMode: false
     };
 
     $scope.viewState.change = function(mode) {
         $scope.viewState.searchMode = (mode == 'search');
         $scope.viewState.browseMode = (mode == 'browse');
+        $scope.viewState.playlistMode = (mode == 'playlist');
     };
 
     function refreshCovers(path) {

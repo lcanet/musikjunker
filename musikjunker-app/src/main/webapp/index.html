@@ -64,7 +64,7 @@
                     )
                 </div>
 
-                <junker-audio playlist="playlist" on-song-change="doOnPlayChange($song)"></junker-audio>
+                <junker-audio playlist="playqueue" on-song-change="doOnPlayChange($song)"></junker-audio>
                 <stars id="currentlyPlaying.id" stars="currentlyPlaying.stars"></stars>
                 <div class="moreinfos-box">
                     <a href="" ng-click="loadWikiInfos()" ng-show="currentlyPlaying != null" class="button green">more infos</a>

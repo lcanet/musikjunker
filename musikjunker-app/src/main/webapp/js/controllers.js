@@ -54,7 +54,7 @@ function SearchController($scope, $http) {
 
     $scope.addAlbum = function(s) {
         $http.get("services/album?q=" + s.metadata.album).success(function(data) {
-            $scope.setPlayList(data);
+            $scope.setPlayQueue(data);
         });
     };
 
@@ -106,13 +106,13 @@ function BrowseController($scope, $http, $filter) {
         var arr = [].concat($scope.files);
         var newplaylist = fn(arr, $scope.filterText);
 
-        $scope.setPlayList($scope.playlist.concat(newplaylist));
+        $scope.setPlayQueue($scope.playqueue.concat(newplaylist));
     };
 
     $scope.randomFromDir = function(dirStack) {
         var dir = dirStack.join('/');
         $http.get("services/dir/random?n=20&dir=" + encodeURIComponent(dir)).success(function(data) {
-            $scope.setPlayList(data);
+            $scope.setPlayQueue(data);
         });
     };
 
@@ -173,14 +173,14 @@ function PlaylistController($scope, $http) {
 
     $scope.queuePlaylist = function(pl) {
         $http.get('services/playlist/' + pl.id).success(function(res){
-            $scope.setPlayList(res.songs);
+            $scope.setPlayQueue(res.songs);
         });
     };
 }
 
 function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
 
-    $scope.playlist = [];
+    $scope.playqueue = [];
     $scope.currentlyPlaying = null;
     $scope.covers = [];
     $scope.currentCover = null;
@@ -220,47 +220,47 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
         return defer.promise;
     }
 
-    $scope.setPlayList = function(newarr) {
+    $scope.setPlayQueue = function(newarr) {
         if (!newarr) {
-            newarr = $scope.playlist;
+            newarr = $scope.playqueue;
         }
         newarr = [].concat(newarr);
-        $scope.playlist = newarr;
+        $scope.playqueue = newarr;
     };
 
 
     $scope.playFile = function(f) {
-        $scope.setPlayList([f]);
+        $scope.setPlayQueue([f]);
     };
 
     $scope.queueFile = function(f) {
-        $scope.playlist.push(f);
-        $scope.setPlayList();
+        $scope.playqueue.push(f);
+        $scope.setPlayQueue();
     };
 
     $scope.dequeueFile = function(idx) {
-        $scope.playlist.splice(idx, 1);
-        $scope.setPlayList();
+        $scope.playqueue.splice(idx, 1);
+        $scope.setPlayQueue();
     };
     $scope.moveToTop = function(idx) {
-        var pl = $scope.playlist;
+        var pl = $scope.playqueue;
         var a = pl[idx];
         pl.splice(idx, 1);
         pl.unshift(a);
-        $scope.setPlayList();
+        $scope.setPlayQueue();
     };
 
-    $scope.clearPlaylist = function() {
-        $scope.setPlayList([]);
+    $scope.clearPlayQueue = function() {
+        $scope.setPlayQueue([]);
     };
 
-    $scope.shufflePlaylist = function() {
-        $scope.playlist.shuffle();
-        $scope.setPlayList();
+    $scope.shufflePlayQueue = function() {
+        $scope.playqueue.shuffle();
+        $scope.setPlayQueue();
     };
     $scope.skipFirst = function() {
-        $scope.playlist.shift();
-        $scope.setPlayList();
+        $scope.playqueue.shift();
+        $scope.setPlayQueue();
     };
 
     var fnFormatSong = $filter('songlabel');
@@ -314,20 +314,20 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
         $scope.currentCover = c;
     };
 
-    $scope.loadRandomPlayList = function(){
+    $scope.loadRandomPlayQueue = function(){
         $http.get("services/random?n=20").success(function(data) {
-            $scope.playlist = data;
+            $scope.playqueue = data;
         });
     };
     $scope.loadStarred = function() {
         $http.get("services/stars/random?n=20").success(function(data) {
-            $scope.playlist = data;
+            $scope.playqueue = data;
         });
     };
 
     $scope.loadNewFiles = function() {
         $http.get("services/new/random?n=20&d=300").success(function(data) {
-            $scope.playlist = data;
+            $scope.playqueue = data;
         });
 
     };
@@ -409,7 +409,7 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
         $log.info("Loading song #" + songId);
         $http.get('services/song/' + songId).success(function(song){
             if (song) {
-                $scope.setPlayList([song]);
+                $scope.setPlayQueue([song]);
             }
         });
     }

@@ -1,17 +1,6 @@
-<!doctype html>
-<html lang="en">
-<body >
 <div ng-controller="SearchController">
 
-<div class="two_third" ng-show="viewState.searchMode">
-    <h3>
-        <a href="" ng-click="viewState.change('browse')">browse</a>
-        |
-        search
-        |
-        <a href="" ng-click="viewState.change('playlist')">playlists</a>
-
-    </h3>
+<div class="two_third">
 
     <form ng-submit="doSearch()">
         <label for="inpQuerySearch">
@@ -95,6 +84,3 @@
 
 </div>
 </div>
-
-</body>
-</html>

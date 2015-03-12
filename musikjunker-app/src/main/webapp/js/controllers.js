@@ -167,18 +167,38 @@ function PlaylistController($scope, $http) {
         });
     };
 
-    $http.get('services/playlists').success(function(res){
-        $scope.playlists =  res;
-    });
-
     $scope.queuePlaylist = function(pl) {
         $http.get('services/playlist/' + pl.id).success(function(res){
             $scope.setPlayQueue(res.songs);
         });
     };
+
+    $scope.openPlaylist = function(pl) {
+        $http.get('services/playlist/' + pl.id).success(function(res){
+            $scope.currentPlaylist = res;
+        });
+    };
+
+    $scope.removeFromPlaylist = function(s) {
+        $http.put('/services/playlist/' + $scope.currentPlaylist.id, {
+            deleteResources: [ s.id ]
+        }).success(function(){
+            var idx = $scope.currentPlaylist.songs.indexOf(s);
+            if (idx != -1) {
+                $scope.currentPlaylist.songs.splice(idx, 1);
+            }
+        });
+    };
+
+    $scope.$on('playlistchanged', function($evt, pl){
+        if ($scope.currentPlaylist && pl.id === $scope.currentPlaylist.id){
+            $scope.openPlaylist(pl);
+        }
+    });
+
 }
 
-function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
+function MainController($timeout, $scope, $http, $log, $rootScope, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
 
     $scope.playqueue = [];
     $scope.currentlyPlaying = null;
@@ -218,6 +238,11 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
             defer.reject(null);
         }
         return defer.promise;
+    }
+    function refreshPlaylists() {
+        $http.get('services/playlists').success(function(res){
+            $scope.playlists =  res;
+        });
     }
 
     $scope.setPlayQueue = function(newarr) {
@@ -401,6 +426,26 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
 
     };
 
+    $scope.togglePlaylistWorkflow = function() {
+        $scope.addToPlaylistWorkflow = !$scope.addToPlaylistWorkflow;
+    };
+    var COLOR_CLASSES = ['pink', 'green', 'green', 'blue', 'red', 'magenta', 'orange', 'yellow'];
+
+    $scope.getLabelColorClass = function(pl) {
+        return COLOR_CLASSES[pl.id % COLOR_CLASSES.length];
+    };
+
+    $scope.addCurrentToPlaylist = function(pl) {
+        $http.put('/services/playlist/'+ pl.id, {
+            addResources: [
+                $scope.currentlyPlaying.id
+            ]
+        }).success(function(){
+            $scope.togglePlaylistWorkflow();
+            $rootScope.$broadcast('playlistchanged', pl);
+        });
+    };
+
     // load unique file if provided in url
     var path = $location.path();
     var idx = path.indexOf('/', 1);
@@ -413,6 +458,7 @@ function MainController($timeout, $scope, $http, $log, $filter, titleUpdater, de
             }
         });
     }
+    refreshPlaylists();
 
 
 }

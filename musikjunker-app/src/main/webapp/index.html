@@ -31,7 +31,7 @@
         <!-- /nav -->
         <hr/>
 
-        <header class="bg_shadow" style="height: 150px">
+        <header class="bg_shadow" style="min-height: 150px">
             <div class="one_third coverbox" ng-cloak>
                 <table class="nb">
                     <tr>
@@ -66,10 +66,24 @@
 
                 <junker-audio playlist="playqueue" on-song-change="doOnPlayChange($song)"></junker-audio>
                 <stars id="currentlyPlaying.id" stars="currentlyPlaying.stars"></stars>
+
+
                 <div class="moreinfos-box">
                     <a href="" ng-click="loadWikiInfos()" ng-show="currentlyPlaying != null" class="button green">more infos</a>
                     <a href="" ng-click="loadSimilar()" ng-show="currentlyPlaying != null" class="button green">more tracks like this</a>
+                    <a href="" ng-click="togglePlaylistWorkflow()" ng-show="currentlyPlaying != null" class="button green">add to list</a>
                 </div>
+
+                <div ng-show="addToPlaylistWorkflow" class="playlist-add-list">
+                    <span class="label" ng-repeat="pl in playlists" ng-class="getLabelColorClass(pl)">
+                        <a href="" ng-click="addCurrentToPlaylist(pl)">
+                            {{ pl.name }}
+                        </a>
+
+                    </span>
+
+                </div>
+
 
             </div>
             <br/>
@@ -103,9 +117,18 @@
 
         <hr id="workZoneTopSeparator"/>
 
-        <ng-include src="'partials/browse.html'"></ng-include>
-        <ng-include src="'partials/search.html'"></ng-include>
-        <ng-include src="'partials/playlist.html'"></ng-include>
+        <h3 class="main-zone-selector">
+            <a href="" ng-click="viewState.change('browse')" ng-class="{'active': viewState.browseMode}">browse</a>
+            |
+            <a href="" ng-click="viewState.change('search')" ng-class="{'active': viewState.searchMode}">search</a>
+            |
+            <a href="" ng-click="viewState.change('playlist')" ng-class="{'active': viewState.playlistMode}">playlists</a>
+        </h3>
+
+
+        <ng-include src="'partials/browse.html'" ng-if="viewState.browseMode"></ng-include>
+        <ng-include src="'partials/search.html'" ng-if="viewState.searchMode"></ng-include>
+        <ng-include src="'partials/playlist.html'" ng-if="viewState.playlistMode"></ng-include>
 
         <ng-include src="'partials/listen.html'"></ng-include>
 

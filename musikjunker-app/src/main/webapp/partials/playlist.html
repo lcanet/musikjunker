@@ -1,27 +1,13 @@
-<!doctype html>
-<html lang="en">
-<body >
+<div ng-controller="PlaylistController" >
 
-<div ng-controller="PlaylistController">
-
-    <div class="two_third" ng-show="viewState.playlistMode">
-        <h3>
-            <a href="" ng-click="viewState.change('browse')">browse</a>
-            |
-            <a href="" ng-click="viewState.change('search')">search</a>
-            |
-            playlists
-        </h3>
+    <div class="one_third" >
 
         <table class="table-striped nb table_condensed">
             <thead>
             <tr>
                 <th>
                     <form ng-submit="addPlaylist()" name="addPlaylistForm" ng-required>
-                        <label for="inpplaylistname">
-                            Name :
-                        </label>
-                        <input type="text" ng-model="newPlaylist.name" placeholder="playlist name" id="inpplaylistname"/>
+                        <input type="text" ng-model="newPlaylist.name" placeholder="playlist name" />
                         <a href="" class="button blue" ng-click="addPlaylist()" style="margin-bottom: 0">add playlist</a>
 
                     </form>
@@ -32,7 +18,9 @@
             <tr ng-repeat="pl in playlists">
                 <td>
                     <a href="" class="playlist-action" ng-click="deletePlaylist(pl)"><i class="icon-remove-sign"></i></a>
-                    {{ pl.name }}
+                    <a href="" ng-click="openPlaylist(pl)">
+                        {{ pl.name }}
+                    </a>
                 </td>
                 <td>
                     <a href="" class="playlist-action" ng-click="queuePlaylist(pl)"><i class="icon-headphones"></i></a>
@@ -45,10 +33,34 @@
 
 
     </div>
+    <div class="one_third">
+        <table class="table-striped nb table_condensed" >
+            <thead>
+            <tr>
+                <th ng-show="currentPlaylist">
+                    <strong>{{ currentPlaylist.name }}</strong>
+                    content
+                    <a href="" class="playlist-action" ng-click="queuePlaylist(currentPlaylist)"><i class="icon-headphones"></i></a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="s in currentPlaylist.songs">
+                <td>
+                    <a href="" ng-click="queueFile(s)"><i class="icon-forward"></i></a>
+                    {{ s | songlabel }}
+                </td>
+                <td>
+                    <a href="" class="playlist-action" ng-click="removeFromPlaylist(s)"><i class="icon-remove-sign"></i></a>
+
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
 
 
 
 </div>
-
-</body>
-</html>

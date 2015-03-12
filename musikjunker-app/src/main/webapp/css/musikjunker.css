@@ -151,3 +151,13 @@
     float: left;
     max-height: 80px;
 }
+.main-zone-selector .active {
+    text-decoration: underline;
+}
+
+.playlist-add-list a {
+    color: inherit;
+}
+.playlist-add-list span.label {
+    margin-left: 5px;
+}

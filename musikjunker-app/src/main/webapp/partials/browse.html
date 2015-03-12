@@ -1,18 +1,6 @@
-<!doctype html>
-<html lang="en">
-<body >
-
 <div ng-controller="BrowseController">
 
-    <div class="one_third" ng-show="viewState.browseMode">
-        <h3>
-            browse
-            |
-            <a href="" ng-click="viewState.change('search')">search</a>
-            |
-            <a href="" ng-click="viewState.change('playlist')">playlists</a>
-
-        </h3>
+    <div class="one_third">
 
         <table class="table-striped nb table_condensed">
             <thead>
@@ -44,8 +32,7 @@
 
     </div>
 
-    <div class="one_third" ng-show="viewState.browseMode">
-        <h3>choose</h3>
+    <div class="one_third">
 
         <table class="table-striped nb table_condensed">
             <thead>
@@ -72,6 +59,3 @@
     </div>
 
 </div>
-
-</body>
-</html>

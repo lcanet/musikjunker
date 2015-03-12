@@ -160,4 +160,6 @@
 }
 .playlist-add-list span.label {
     margin-left: 5px;
+    float: left;
+    margin-bottom: 2px;
 }

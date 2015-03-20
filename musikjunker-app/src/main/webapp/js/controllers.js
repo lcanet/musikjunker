@@ -180,7 +180,7 @@ function PlaylistController($scope, $http) {
     };
 
     $scope.removeFromPlaylist = function(s) {
-        $http.put('/services/playlist/' + $scope.currentPlaylist.id, {
+        $http.put('services/playlist/' + $scope.currentPlaylist.id, {
             deleteResources: [ s.id ]
         }).success(function(){
             var idx = $scope.currentPlaylist.songs.indexOf(s);

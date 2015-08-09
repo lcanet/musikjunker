@@ -436,7 +436,7 @@ function MainController($timeout, $scope, $http, $log, $rootScope, $filter, titl
     };
 
     $scope.addCurrentToPlaylist = function(pl) {
-        $http.put('/services/playlist/'+ pl.id, {
+        $http.put('services/playlist/'+ pl.id, {
             addResources: [
                 $scope.currentlyPlaying.id
             ]

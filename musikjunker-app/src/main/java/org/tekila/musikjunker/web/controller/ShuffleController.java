@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,7 @@ public class ShuffleController {
 			criteria.add(Restrictions.gt("hash", randomHash));
 			criteria.add(Restrictions.eq("type", TypeResource.AUDIO));
 			criteria.add(Restrictions.ne("ignoreShuffle", true));
+			criteria.addOrder(Order.asc("hash"));
 			List<Resource> list = hibernateRepository.findByCriteria(criteria, 0, size);
 			lr.addAll(list);
 		}

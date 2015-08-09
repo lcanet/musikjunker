@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<groupId>org.tekila.musikjunker</groupId>
 	<artifactId>musikjunker-parent</artifactId>
 	<name>musikjunker - Parent</name>
@@ -9,6 +10,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<driver.mysql.version>5.1.6</driver.mysql.version>
+		<driver.postgresql.version>9.4-1201-jdbc4</driver.postgresql.version>
 
 		<lib.spring.version>3.1.1.RELEASE</lib.spring.version>
 		<lib.hibernate.version>3.6.10.Final</lib.hibernate.version>
@@ -413,6 +415,12 @@
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${driver.mysql.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${driver.postgresql.version}</version>
+			</dependency>
+
 
 			<!-- Test -->
 			<dependency>
@@ -475,7 +483,7 @@
 		<module>musikjunker-ear</module>
 	</modules>
 
-		<distributionManagement>
+	<distributionManagement>
 		<repository>
 			<id>ci-releases</id>
 			<name>Local repo on CI Server</name>

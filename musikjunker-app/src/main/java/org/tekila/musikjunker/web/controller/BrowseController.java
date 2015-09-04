@@ -1,7 +1,9 @@
 package org.tekila.musikjunker.web.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -24,6 +26,8 @@ import org.tekila.musikjunker.vo.SearchResults;
 @Controller
 public class BrowseController {
 
+	private static final Pattern NUMBERED_DIR_PATTERN = Pattern.compile("CD\\d+", Pattern.CASE_INSENSITIVE);
+	
 	@Autowired
 	private HibernateRepository hibernateRepository;
 	
@@ -58,15 +62,27 @@ public class BrowseController {
 	@ResponseBody
 	@RequestMapping("/covers")
 	public List<Resource> getCovers(@RequestParam(value="dir", required=true) String q) {
-		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
-		crit.add(Restrictions.eq("type", TypeResource.COVER));
-		crit.add(Restrictions.eq("path", q));
 		
-		List<Resource> lr = hibernateRepository.findByCriteria(crit);
+		List<Resource> lr = new ArrayList<>();
+		lr.addAll(findCovers(q));
+		
+		String lastDir = StringUtils.substringAfterLast(q, "/");
+		if (NUMBERED_DIR_PATTERN.matcher(lastDir).matches()) {
+			// try with parent
+			lr.addAll(findCovers(StringUtils.substringBeforeLast(q, "/")));
+		}
+		
 		Collections.sort(lr, new CoverComparator());
-		
 		return  lr;
 	}
+	
+	private List<Resource> findCovers(String dir) {
+		DetachedCriteria crit = DetachedCriteria.forClass(Resource.class);
+		crit.add(Restrictions.eq("type", TypeResource.COVER));
+		crit.add(Restrictions.eq("path", dir));
+		return hibernateRepository.findByCriteria(crit); 
+	}
+	
 	
 	@ResponseBody
 	@RequestMapping("/search")

@@ -198,7 +198,7 @@ function PlaylistController($scope, $http) {
 
 }
 
-function MainController($timeout, $scope, $http, $log, $rootScope, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
+function MainController($timeout, $interval, $scope, $http, $log, $rootScope, $filter, titleUpdater, desktopNotification, $q, $sce, $location, faviconChanger) {
 
     $scope.playqueue = [];
     $scope.currentlyPlaying = null;
@@ -290,11 +290,12 @@ function MainController($timeout, $scope, $http, $log, $rootScope, $filter, titl
 
     var fnFormatSong = $filter('songlabel');
     var fnCoverUrl = $filter('coverurl');
-
     var timer;
 
+    var currentSongCoverUrl;
+
     $scope.doOnPlayChange = function($song) {
-        var p = refreshCovers($song ? $song.path : null)
+        var p = refreshCovers($song ? $song.path : null);
         $scope.currentlyPlaying = $song;
 
         // title
@@ -304,15 +305,16 @@ function MainController($timeout, $scope, $http, $log, $rootScope, $filter, titl
 
         faviconChanger.setFavicon($song);
 
+        currentSongCoverUrl = null;
+
         if ($song != null && p){
             p.then(function(cover){
-                var coverUrl = null;
                 if (cover) {
-                    coverUrl = fnCoverUrl(cover);
+                    currentSongCoverUrl = fnCoverUrl(cover);
                 }
                 desktopNotification.notify('Musikjunker',
                     fnFormatSong($song),
-                    coverUrl);
+                    currentSongCoverUrl);
 
             });
         }
@@ -460,6 +462,13 @@ function MainController($timeout, $scope, $http, $log, $rootScope, $filter, titl
     }
     refreshPlaylists();
 
+    $interval(function(){
+        if ($scope.currentlyPlaying && desktopNotification.enabled) {
+            desktopNotification.notify('Musikjunker',
+                fnFormatSong($scope.currentlyPlaying),
+                currentSongCoverUrl);
+        }
+    }, 2 * 60 * 1000);
 
 }
 
